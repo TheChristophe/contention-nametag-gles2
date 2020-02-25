@@ -1,0 +1,16 @@
+.vs/
+.vscode/
+docs/
+
+/*.cfg
+*.d
+*.exe
+*.o
+
+nametag
+Thumbs.db
+
+# debugging files
+develop/memcheck.log*
+test.bmp
+
