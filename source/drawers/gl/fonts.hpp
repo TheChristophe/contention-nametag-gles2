@@ -1,6 +1,7 @@
 #ifndef DRAWERS_GL_FONTS_HPP
 #define DRAWERS_GL_FONTS_HPP
 
+#include "drawers/gl/drawable.hpp"
 #include "vertex.hpp"
 #include "wrappers/shader.hpp"
 
@@ -24,16 +25,16 @@ namespace Drawers::GL {
         int charCount;
     };
 
-    class Fonts {
+    class Fonts : public Drawable {
         public:
-        Fonts(std::shared_ptr<Wrappers::Shader> shader, int width, int height);
+        Fonts(std::shared_ptr<Wrappers::Shader> shader, int width, int height, const char *text);
         ~Fonts();
 
-        void LoadText(const char *text);
-
-        void Draw(float time);
+        void Draw(float time) final;
 
         private:
+        void LoadText(const char *text);
+
         FT_Library _freetype;
         FT_Face _face;
 

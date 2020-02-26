@@ -1,6 +1,7 @@
 #ifndef DRAWERS_GL_DECORATION_HPP
 #define DRAWERS_GL_DECORATION_HPP
 
+#include "drawers/gl/drawable.hpp"
 #include "wrappers/shader.hpp"
 
 #include <memory>
@@ -10,11 +11,11 @@ namespace Drawers::GL {
      * @brief OpenGL drawing class for background pictures (triangles, ...).
      * 
      */
-    class Decoration {
+    class Decoration : public Drawable {
         public:
-        Decoration(std::shared_ptr<Wrappers::Shader> shader, int width, int height);
+        Decoration(std::shared_ptr<Wrappers::Shader> shader);
 
-        void DrawTriangle(float time);
+        void Draw(float time) final;
 
         private:
         std::shared_ptr<Wrappers::Shader> _shader;
@@ -23,11 +24,6 @@ namespace Drawers::GL {
 
         GLuint _posLoc;
         GLuint _luminLoc;
-
-        GLuint _bayerTexture;
-
-        int _width;
-        int _height;
     };
 } // namespace Drawers::GL
 

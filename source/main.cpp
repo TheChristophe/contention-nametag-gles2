@@ -2,6 +2,7 @@
 #include "drawers/buffer/drawer.hpp"
 #include "drawers/gl/decoration.hpp"
 #include "drawers/gl/fonts.hpp"
+#include "util/animationController.hpp"
 #include "util/resourceHandler.hpp"
 #include "util/time.hpp"
 #include "wrappers/openGL.hpp"
@@ -33,10 +34,10 @@ int main(int argc, char **argv)
     Drawers::Buffer::Drawer drawer(driver);
 
     Wrappers::OpenGL glWrapper(driver.GetWidth(), driver.GetHeight());
-    ResourceHandler resHandler;
-    Drawers::GL::Decoration decoDrawer(resHandler.LoadShader("triangle"), driver.GetWidth(), driver.GetHeight());
-    Drawers::GL::Fonts font(resHandler.LoadShader("text"), driver.GetWidth(), driver.GetHeight());
-    font.LoadText("Christophe");
+    ResourceHandler resHandler(driver.GetWidth(), driver.GetHeight());
+    AnimationController animation(driver.GetWidth(), driver.GetHeight());
+    animation.AddTriangle();
+    animation.AddText("Christophe");
 
     auto current = std::chrono::steady_clock::now();
     auto prev    = std::chrono::steady_clock::now();
@@ -56,8 +57,7 @@ int main(int argc, char **argv)
         sectionTimes[0] = std::chrono::steady_clock::now();
 
         glWrapper.PreDraw();
-        decoDrawer.DrawTriangle(now);
-        font.Draw(now);
+        animation.Draw(now);
 
         sectionTimes[1] = std::chrono::steady_clock::now();
 

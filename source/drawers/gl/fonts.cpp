@@ -5,11 +5,12 @@
 #include <stdexcept>
 
 namespace Drawers::GL {
-    Fonts::Fonts(std::shared_ptr<Wrappers::Shader> shader, int width, int height)
+    Fonts::Fonts(std::shared_ptr<Wrappers::Shader> shader, int width, int height, const char *text)
         : _shader(shader)
         , _scaleX{ 2.f / width }
         , _scaleY{ 2.f / height }
         , _fontSize{ 24 }
+        , _text{}
     {
         if (FT_Init_FreeType(&_freetype)) {
             throw std::runtime_error("could not load freetype");
@@ -24,11 +25,11 @@ namespace Drawers::GL {
             throw std::runtime_error("could not load character");
         }
 
-        glActiveTexture(GL_TEXTURE0);
+        glActiveTexture(GL_TEXTURE1);
         glGenTextures(1, &_text.texture);
         glBindTexture(GL_TEXTURE_2D, _text.texture);
         _shader->Use();
-        _shader->Set("tex", 0);
+        _shader->Set("tex", 1);
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -47,6 +48,8 @@ namespace Drawers::GL {
         //auto viewMatrix       = glm::lookAt(glm::vec3(0, 0, 1), glm::vec3(0, 0, -1), glm::vec3(0.0f, 1.0f, 0.0f));
         //auto projectionMatrix = glm::perspective(45.f, 2.f, 0.1f, 100.0f);
         //_shader.Set("projection", projectionMatrix * viewMatrix);
+
+        LoadText(text);
     }
 
     Fonts::~Fonts()
