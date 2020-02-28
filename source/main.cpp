@@ -1,7 +1,5 @@
 
 #include "drawers/buffer/drawer.hpp"
-#include "drawers/gl/decoration.hpp"
-#include "drawers/gl/fonts.hpp"
 #include "util/animationController.hpp"
 #include "util/resourceHandler.hpp"
 #include "util/time.hpp"
