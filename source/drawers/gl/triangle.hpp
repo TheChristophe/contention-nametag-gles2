@@ -11,9 +11,9 @@ namespace Drawers::GL {
      * @brief OpenGL drawing class for background pictures (triangles, ...).
      * 
      */
-    class Decoration : public Drawable {
+    class Triangle : public Drawable {
         public:
-        Decoration(std::shared_ptr<Wrappers::Shader> shader);
+        Triangle(std::shared_ptr<Wrappers::Shader> shader);
 
         void Draw(float time) final;
 

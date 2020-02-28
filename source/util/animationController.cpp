@@ -1,8 +1,8 @@
 #include "animationController.hpp"
 
-#include "drawers/gl/decoration.hpp"
 #include "drawers/gl/drawable.hpp"
 #include "drawers/gl/fonts.hpp"
+#include "drawers/gl/triangle.hpp"
 
 #include <iostream>
 
@@ -15,7 +15,7 @@ AnimationController::AnimationController(int width, int height)
 
 AnimationController::identifier AnimationController::AddTriangle()
 {
-    auto p  = new Drawers::GL::Decoration(_resources.LoadShader("triangle"));
+    auto p  = new Drawers::GL::Triangle(_resources.LoadShader("triangle"));
     auto id = _nextID++;
     _drawables.emplace(id, dynamic_cast<Drawers::GL::Drawable *>(p));
     return id;

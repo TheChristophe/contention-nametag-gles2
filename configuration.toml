@@ -1,5 +1,5 @@
 [shaders]
 text.fragment = "res/textFrag.glsl"
 text.vertex = "res/textVert.glsl"
-triangle.fragment = "res/decoFrag.glsl"
-triangle.vertex = "res/decoVert.glsl"
+triangle.fragment = "res/triangleFrag.glsl"
+triangle.vertex = "res/triangleVert.glsl"

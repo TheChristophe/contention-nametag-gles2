@@ -1,5 +1,6 @@
 
-#include "decoration.hpp"
+#include "triangle.hpp"
+
 #include "vertex.hpp"
 
 #include <GLES2/gl2.h>
@@ -11,12 +12,12 @@
 namespace Drawers::GL {
     // x, y, z
     static const DecoVertex vertices[]{
-        DecoVertex{ 2.0f, 0.0f, 0.f },     // cos/sin  0
-        DecoVertex{ -1.f, 1.732f, 0.25f }, // cos/sin 2/3 pi
-        DecoVertex{ -1.f, -1.732f, 0.5f }  // cos/sin 4/3 pi
+        DecoVertex{ 2.0f, 0.0f, 0.f },    // cos/sin  0
+        DecoVertex{ -1.f, 1.732f, 0.5f }, // cos/sin 2/3 pi
+        DecoVertex{ -1.f, -1.732f, 1.0f } // cos/sin 4/3 pi
     };
 
-    Decoration::Decoration(std::shared_ptr<Wrappers::Shader> shader)
+    Triangle::Triangle(std::shared_ptr<Wrappers::Shader> shader)
         : _shader(shader)
     {
         _shader->Use();
@@ -39,7 +40,7 @@ namespace Drawers::GL {
         _luminLoc = _shader->GetAttribLocation("luminosity");
     }
 
-    void Decoration::Draw(float time)
+    void Triangle::Draw(float time)
     {
         _shader->Use();
         _shader->Set("time", time * 4.f);
