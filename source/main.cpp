@@ -34,7 +34,7 @@ int main(int argc, char **argv)
     Wrappers::OpenGL glWrapper(driver.GetWidth(), driver.GetHeight());
     ResourceHandler resHandler(driver.GetWidth(), driver.GetHeight());
     AnimationController animation(driver.GetWidth(), driver.GetHeight());
-    animation.AddTriangle();
+    animation.AddTriangle(-0.5f, 0.5f);
     animation.AddText("Christophe");
 
     auto current = std::chrono::steady_clock::now();

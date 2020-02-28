@@ -19,6 +19,7 @@ namespace Drawers::GL {
 
     Triangle::Triangle(std::shared_ptr<Wrappers::Shader> shader)
         : _shader(shader)
+        , _at(0, 0)
     {
         _shader->Use();
 
@@ -44,6 +45,7 @@ namespace Drawers::GL {
     {
         _shader->Use();
         _shader->Set("time", time * 4.f);
+        _shader->Set("offset", _at);
         glBindBuffer(GL_ARRAY_BUFFER, _vbo);
         glVertexAttribPointer(_posLoc, 2, GL_FLOAT, GL_FALSE, sizeof(DecoVertex), nullptr);
         glEnableVertexAttribArray(_posLoc);
@@ -57,5 +59,10 @@ namespace Drawers::GL {
 
         glDisableVertexAttribArray(_posLoc);
         glDisableVertexAttribArray(_luminLoc);
+    }
+
+    void Triangle::MoveTo(glm::vec2 to)
+    {
+        _at = to;
     }
 } // namespace Drawers::GL

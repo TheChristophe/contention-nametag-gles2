@@ -4,6 +4,8 @@
 #include "drawers/gl/drawable.hpp"
 #include "wrappers/shader.hpp"
 
+#include <glm/glm.hpp>
+
 #include <memory>
 
 namespace Drawers::GL {
@@ -17,6 +19,8 @@ namespace Drawers::GL {
 
         void Draw(float time) final;
 
+        void MoveTo(glm::vec2 to);
+
         private:
         std::shared_ptr<Wrappers::Shader> _shader;
 
@@ -24,6 +28,8 @@ namespace Drawers::GL {
 
         GLuint _posLoc;
         GLuint _luminLoc;
+
+        glm::vec2 _at;
     };
 } // namespace Drawers::GL
 

@@ -75,6 +75,7 @@ std::shared_ptr<Wrappers::Shader> ResourceHandler::LoadShader(const std::string 
     pointer->Set("projection", projectionMatrix * viewMatrix);
     pointer->Set("time", 0.f);
     pointer->Set("bayerTex", 0);
+    pointer->Set("offset", glm::vec2(0, 0));
 
     _shaders.insert({ identifier, pointer });
     return pointer;

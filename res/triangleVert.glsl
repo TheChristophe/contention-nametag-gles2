@@ -3,6 +3,7 @@ attribute float luminosity;
 
 uniform mat4 projection;
 uniform float time;
+uniform vec2 offset;
 
 varying float lumin;
 
@@ -33,5 +34,5 @@ mat4 rotationZ(in float angle)
 void main()
 {
     lumin = luminosity;
-    gl_Position = projection * rotationZ(time) * vec4(pos, 1.0, 1.0);
+    gl_Position = projection * (rotationZ(time) * vec4(pos, 1.0, 1.0) + vec4(offset, 0.0, 0.0));
 }

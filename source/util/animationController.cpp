@@ -13,10 +13,11 @@ AnimationController::AnimationController(int width, int height)
 {
 }
 
-AnimationController::identifier AnimationController::AddTriangle()
+AnimationController::identifier AnimationController::AddTriangle(float x, float y)
 {
     auto p  = new Drawers::GL::Triangle(_resources.LoadShader("triangle"));
     auto id = _nextID++;
+    p->MoveTo(glm::vec2(x, y));
     _drawables.emplace(id, dynamic_cast<Drawers::GL::Drawable *>(p));
     return id;
 }

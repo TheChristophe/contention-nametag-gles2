@@ -11,7 +11,7 @@ class AnimationController {
     public:
     using identifier = int;
     AnimationController(int width, int height);
-    identifier AddTriangle();
+    identifier AddTriangle(float x = 0.f, float y = 0.f);
     identifier AddText(const char *text);
     void Remove(identifier id);
 
