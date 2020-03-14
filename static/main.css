@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Livvic&display=swap');
+
+html { 
+  /*background: url(background.jpg) no-repeat center center fixed;*/
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 100%;
+}
+
+body {
+  font-family: 'Montserrat', 'Livvic', Arial, sans-serif;
+  margin: 0em;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+#content-container {
+  height: 100%;
+  overflow-y: auto;  
+}
+
+#content {
+  margin-top: 5em;
+  margin-bottom: 5em;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2em;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 0.33em;
+  width: 40%;
+  position: relative;
+  box-shadow: 0 0 1em #000; 
+}
+
+#info h1 {
+  text-align: center;
+  font-family: 'Livvic', sans-serif;
+}
+
+@media screen and (min-width: 2100px) {
+  #content {
+    width: 30%;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  #content {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  #content {
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  #content {
+    width: 80%;
+  }
+}
+
+.image {
+  max-width: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.fab {
+  margin-right: 0.15em;
+}
+
+button {
+  border-style: dashed;
+  border-color: black;
+  margin: 0.3em;
+}
