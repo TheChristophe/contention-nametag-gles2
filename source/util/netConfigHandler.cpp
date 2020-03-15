@@ -43,7 +43,17 @@ void NetConfigHandler::Poll()
 
         auto data = json::parse(_buffer);
 
-        // process request
+        if (data["type"] == "post") {
+            if (data["content"]["type"] == "triangle") {
+                auto x = std::stof(data["content"]["x"].get<std::string>());
+                auto y = std::stof(data["content"]["y"].get<std::string>());
+                _controller->AddTriangle(x, y);
+            }
+        }
+        else if (data["type"] == "put") {
+        }
+        else if (data["type"] == "get") {
+        }
 
         size = mq_receive(_queue, _buffer, sizeof(_buffer) - 1, nullptr);
     }
