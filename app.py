@@ -52,6 +52,12 @@ def post_test():
 
     return jsonify(result=a + b)
 
+@app.route('/triangle-add', methods=['POST'])
+def triangle():
+    transmit_message('post', request.form)
+
+    return jsonify(result='ok')
+
 @app.route('/')
 def root():
     return render_template('index.html')

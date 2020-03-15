@@ -34,20 +34,25 @@ $(function () {
 });
 
 $(function () {
-    let form = $('#posttestform');
-    form.submit(function (e) {
-        $.ajax({
-            type: form.attr('method'),
-            url: form.attr('action'),
-            data: form.serialize(),
-            success: function (data) {
-                alert('POST response: ' + data.result)
-            },
-            error: function (data) {
-                alert('POST error: ' + data.result)
-            },
-        });
+    const forms = ['#posttestform', '#triangleform'];
 
-        return false;
-    });
+    for (const formName of forms) {
+        let form = $(formName);
+
+        form.submit(function (e) {
+            $.ajax({
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function (data) {
+                    alert('POST response: ' + data.result)
+                },
+                error: function (data) {
+                    alert('POST error: ' + data.result)
+                },
+            });
+
+            return false;
+        });
+    }
 });
