@@ -6,5 +6,5 @@ Setup with:
   - pip install -r requirements.txt
 
 Run with:
-  - . ./venv/venv
+  - . ./venv/bin/activate
   - flask run --host=0.0.0.0
