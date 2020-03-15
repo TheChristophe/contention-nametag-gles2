@@ -3,6 +3,19 @@
 from flask import Flask, jsonify, render_template, request
 app = Flask(__name__)
 
+from ipcqueue import posixmq
+from ipcqueue.serializers import RawSerializer
+queue = posixmq.Queue('/nametag', maxsize=16, maxmsgsize=4096, serializer=RawSerializer)
+
+import json
+
+def transmit_message(type, message):
+    json_str = json.dumps({
+        'type': type,
+        'content': message
+    }) + '\0'
+    queue.put(json_str.encode('utf-8'))
+
 @app.errorhandler(404)
 def not_found(error):
     return render_template('404.html'), 404
@@ -15,7 +28,9 @@ def internal_error(error):
 def get_test():
     a = request.args.get('a')
     b = request.args.get('b')
-    print("GET:", a + b)
+    
+    transmit_message('get', request.args)
+
     return jsonify(result=a + b)
 
 @app.route('/put-test', methods=['PUT'])
@@ -23,14 +38,18 @@ def put_test():
     data = request.get_json()
     a = data['a']
     b = data['b']
-    print("PUT:", a + b)
+
+    transmit_message('put', data)
+        
     return jsonify(result=a + b)
 
 @app.route('/post-test', methods=['POST'])
 def post_test():
     a = request.form['a']
     b = request.form['b']
-    print("POST:", a + b)
+
+    transmit_message('post', request.form)
+
     return jsonify(result=a + b)
 
 @app.route('/')
