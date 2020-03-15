@@ -1,6 +1,7 @@
 
 #include "drawers/buffer/drawer.hpp"
 #include "util/animationController.hpp"
+#include "util/netConfigHandler.hpp"
 #include "util/resourceHandler.hpp"
 #include "util/time.hpp"
 #include "wrappers/openGL.hpp"
@@ -34,6 +35,9 @@ int main(int argc, char **argv)
     Wrappers::OpenGL glWrapper(driver.GetWidth(), driver.GetHeight());
     ResourceHandler resHandler(driver.GetWidth(), driver.GetHeight());
     AnimationController animation(driver.GetWidth(), driver.GetHeight());
+
+    NetConfigHandler configHandler(&animation);
+
     animation.AddTriangle(-0.5f, 0.5f);
     animation.AddText("Christophe");
 
@@ -51,6 +55,8 @@ int main(int argc, char **argv)
 
     while (run) {
         now = static_cast<double>(util::timing::Get() - startTime) / static_cast<double>(util::timing::Frequency());
+
+        configHandler.Poll();
 
         sectionTimes[0] = std::chrono::steady_clock::now();
 
