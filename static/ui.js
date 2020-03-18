@@ -10,6 +10,7 @@ function Log(text) {
 }
 
 $(function () {
+    /*
     $('button#gettest').bind('click', function () {
         $.getJSON($SCRIPT_ROOT + '/get-test', {
             a: $('input[name="get-input-1"]').val(),
@@ -19,27 +20,7 @@ $(function () {
         });
         return false;
     });
-
-    $('button#puttest').bind('click', function () {
-        $.ajax({
-            url: $SCRIPT_ROOT + '/put-test',
-            type: 'PUT',
-            contentType: 'application/json',
-            dataType: "json",
-            processData: false,
-            data: JSON.stringify({
-                a: 'test ',
-                b: 'string'
-            }),
-            success: function (data) {
-                alert('PUT response: ' + data.result);
-            },
-            error: function (data) {
-                alert('PUT error: ' + data)
-            },
-        });
-        return false;
-    });
+    */
 
     const forms = ['#posttestform', '#triangleform'];
 

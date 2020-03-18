@@ -40,25 +40,6 @@ def get_test():
 
     return jsonify(result=a + b)
 
-@app.route('/put-test', methods=['PUT'])
-def put_test():
-    data = request.get_json()
-    a = data['a']
-    b = data['b']
-
-    transmit_message('put', data)
-        
-    return jsonify(result=a + b)
-
-@app.route('/post-test', methods=['POST'])
-def post_test():
-    a = request.form['a']
-    b = request.form['b']
-
-    transmit_message('post', request.form)
-
-    return jsonify(result=a + b)
-
 @app.route('/triangle-add', methods=['POST'])
 def triangle():
     transmit_message('post', request.form)
