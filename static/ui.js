@@ -1,3 +1,14 @@
+let selected = null;
+
+function Log(text) {
+    let textDiv = document.createElement("div");
+    textDiv.appendChild(document.createTextNode(text));
+
+    textDiv.classList.add("log-line");
+
+    document.getElementById("commandLog").appendChild(textDiv);
+}
+
 $(function () {
     $('button#gettest').bind('click', function () {
         $.getJSON($SCRIPT_ROOT + '/get-test', {
@@ -8,9 +19,7 @@ $(function () {
         });
         return false;
     });
-});
 
-$(function () {
     $('button#puttest').bind('click', function () {
         $.ajax({
             url: $SCRIPT_ROOT + '/put-test',
@@ -31,9 +40,7 @@ $(function () {
         });
         return false;
     });
-});
 
-$(function () {
     const forms = ['#posttestform', '#triangleform'];
 
     for (const formName of forms) {
@@ -45,14 +52,61 @@ $(function () {
                 url: form.attr('action'),
                 data: form.serialize(),
                 success: function (data) {
-                    alert('POST response: ' + data.result)
+                    Log("POST " + formName + ": " + data.result['id']);
+                    AddElement(data.result);
                 },
                 error: function (data) {
-                    alert('POST error: ' + data.result)
+                    Log("POST error " + formName + ": " + data.result);
                 },
             });
 
             return false;
         });
     }
+
+    function AddElement(e) {
+        // create new element
+        let entry = document.createElement("div");
+        console.log(e);
+        entry.appendChild(document.createTextNode(e["type"] + e["id"]));
+
+        // setup element
+        entry.classList.add("log-line");
+        entry.embedded = e;
+        entry.onclick = function (event) {
+            if (selected) {
+                selected.classList.remove("selected");
+            }
+            selected = this;
+            this.classList.add("selected");
+        }
+        entry.onclick();
+
+        // append
+        document.getElementById("selector").appendChild(entry);
+    }
 });
+
+function DeleteSelected() {
+    if (selected) {
+        $.ajax({
+            url: $SCRIPT_ROOT + '/delete',
+            type: 'PUT',
+            contentType: 'application/json',
+            dataType: "json",
+            processData: false,
+            data: JSON.stringify({
+                type: '_delete',
+                id: selected.embedded["id"]
+            }),
+            success: function (data) {
+                Log('delete: ' + data.result);
+                selected.parentNode.removeChild(selected);
+                selected = null;
+            },
+            error: function (data) {
+                Log('delete error: ' + data)
+            },
+        });
+    }
+}

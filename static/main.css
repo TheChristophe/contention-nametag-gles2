@@ -29,9 +29,10 @@ body {
   padding: 2em;
   background: rgba(255, 255, 255, 0.8);
   border-radius: 0.33em;
-  width: 40%;
+  width: 1100px;
   position: relative;
-  box-shadow: 0 0 1em #000; 
+  box-shadow: 0 0 1em #000;
+  box-sizing: border-box;
 }
 
 #info h1 {
@@ -39,29 +40,13 @@ body {
   font-family: 'Livvic', sans-serif;
 }
 
+/*
 @media screen and (min-width: 2100px) {
   #content {
     width: 30%;
   }
-}
+}*/
 
-@media screen and (max-width: 1200px) {
-  #content {
-    width: 50%;
-  }
-}
-
-@media screen and (max-width: 700px) {
-  #content {
-    width: 60%;
-  }
-}
-
-@media screen and (max-width: 400px) {
-  #content {
-    width: 80%;
-  }
-}
 
 .image {
   max-width: 100%;
@@ -78,4 +63,51 @@ button {
   border-style: dashed;
   border-color: black;
   margin: 0.3em;
+}
+
+.scroll-log {
+  overflow-x: hidden; 
+  overflow-y: auto; 
+  text-align: justify;
+  padding: 4px;
+  width: 100%;
+  border: 2px black;
+  box-sizing: border-box;
+  max-height: 6em;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+.log-line {
+  border: 1px solid black;
+  margin-top: -1px;
+}
+
+.scrollers-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.selected {
+  background-color: skyblue;
+}
+
+@media screen and (max-width: 1200px) {
+  #content {
+    margin-left: 3em;
+    margin-right: 3em;
+    width: auto;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  #content {
+    margin-left: 2em;
+    margin-right: 2em;
+    width: auto;
+  }
+  .scrollers-container {
+    flex-direction: column;
+  }
 }

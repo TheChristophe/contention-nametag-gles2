@@ -5,16 +5,23 @@ app = Flask(__name__)
 
 from ipcqueue import posixmq
 from ipcqueue.serializers import RawSerializer
-queue = posixmq.Queue('/nametag', maxsize=16, maxmsgsize=4096, serializer=RawSerializer)
+outQueue = posixmq.Queue('/nametag', maxsize=16, maxmsgsize=4096, serializer=RawSerializer)
+inQueue = posixmq.Queue('/nametag-out', maxsize=16, maxmsgsize=4096, serializer=RawSerializer)
 
 import json
+import uuid
 
 def transmit_message(type, message):
     json_str = json.dumps({
         'type': type,
-        'content': message
+        'content': message,
+        'uuid': str(uuid.uuid4())
     }) + '\0'
-    queue.put(json_str.encode('utf-8'))
+    outQueue.put(json_str.encode('utf-8'))
+
+def receive_message():
+    # -1 to splice out null terminator
+    return json.loads(inQueue.get()[:-1].decode('utf-8'))
 
 @app.errorhandler(404)
 def not_found(error):
@@ -55,7 +62,16 @@ def post_test():
 @app.route('/triangle-add', methods=['POST'])
 def triangle():
     transmit_message('post', request.form)
+    response = receive_message()
+    response["type"] = request.form["type"]
 
+    return jsonify(result=response)
+
+@app.route('/delete', methods=['PUT'])
+def delete():
+    data = request.get_json()
+    transmit_message('put', data)
+        
     return jsonify(result='ok')
 
 @app.route('/')

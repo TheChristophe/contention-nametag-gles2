@@ -3,6 +3,7 @@
 {% block content %}
 <h1>Configuration page</h1>
 <div class="content">
+  <!--
   <p>
     <h3>PUT Test</h3>
     <button type="button" id="puttest">Run</button>
@@ -20,6 +21,18 @@
       <input type="text" size=5 name="b" />
       <input type="submit" id="posttest" value="Run" />
     </form>
+  </p>
+-->
+  <div class="scrollers-container">
+    <div class="scroll-log" id="commandLog">
+      <div class="log-line">Log start!</div>
+    </div>
+    <div class="scroll-log" id="selector">
+      <div class="log-line">Added elements</div>
+    </div>
+  </div>
+  <p>
+    <button type="button" onclick="DeleteSelected()">Delete</button>
   </p>
   <p>
     <h3>Add triangle</h3>
