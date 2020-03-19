@@ -40,8 +40,8 @@ def get_test():
 
     return jsonify(result=a + b)
 
-@app.route('/triangle-add', methods=['POST'])
-def triangle():
+@app.route('/add', methods=['POST'])
+def add():
     transmit_message('post', request.form)
     response = receive_message()
     response["type"] = request.form["type"]

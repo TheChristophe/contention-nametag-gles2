@@ -59,7 +59,7 @@ body {
   margin-right: 0.15em;
 }
 
-button {
+.button {
   border-style: dashed;
   border-color: black;
   margin: 0.3em;

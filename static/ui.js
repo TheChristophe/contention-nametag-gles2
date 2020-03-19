@@ -22,7 +22,7 @@ $(function () {
     });
     */
 
-    const forms = ['#posttestform', '#triangleform'];
+    const forms = ['#triangle-add', '#text-add'];
 
     for (const formName of forms) {
         let form = $(formName);
