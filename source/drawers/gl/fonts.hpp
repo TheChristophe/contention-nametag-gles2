@@ -31,6 +31,8 @@ namespace Drawers::GL {
         ~Fonts();
 
         void Draw(float time) final;
+        void SetWavy(bool wavy);
+        void MoveTo(glm::vec2 to);
 
         private:
         void LoadText(const char *text);
@@ -48,6 +50,10 @@ namespace Drawers::GL {
         int _fontSize;
 
         TextInfo _text;
+
+        bool _wavy;
+
+        glm::vec2 _at;
     };
 } // namespace Drawers::GL
 

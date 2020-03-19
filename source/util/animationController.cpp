@@ -22,12 +22,22 @@ AnimationController::identifier AnimationController::AddTriangle(float x, float 
     return id;
 }
 
-AnimationController::identifier AnimationController::AddText(const char *text)
+AnimationController::identifier AnimationController::AddText(const char *text, bool wavy, float x, float y)
 {
     auto p  = new Drawers::GL::Fonts(_resources.LoadShader("text"), _width, _height, text);
     auto id = _nextID++;
+    p->MoveTo(glm::vec2(x, y));
+    p->SetWavy(wavy);
     _drawables.emplace(id, dynamic_cast<Drawers::GL::Drawable *>(p));
     return id;
+}
+
+Drawers::GL::Drawable *AnimationController::GetDrawable(AnimationController::identifier id)
+{
+    if (auto it = _drawables.find(id); it != _drawables.end()) {
+        return it->second.get();
+    }
+    return nullptr;
 }
 
 void AnimationController::Remove(AnimationController::identifier id)

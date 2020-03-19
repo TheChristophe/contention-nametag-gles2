@@ -68,6 +68,18 @@ void NetConfigHandler::Handle(const nlohmann::json &metadata)
                 { "uuid", metadata["uuid"] },
                 { "id", id } });
         }
+        else if (metadata["content"]["type"] == "text") {
+            auto &data = metadata["content"];
+            auto x{ std::stof(data["x"].get<std::string>()) };
+            auto y{ std::stof(data["y"].get<std::string>()) };
+            auto text{ data["text"].get<std::string>() };
+            bool wavy{ data.contains("wavy") };
+            auto id{ _controller->AddText(text.c_str(), wavy, x, y) };
+
+            Respond(json{
+                { "uuid", metadata["uuid"] },
+                { "id", id } });
+        }
     }
     else if (metadata["type"] == "put") {
         if (metadata["content"]["type"] == "_delete") {

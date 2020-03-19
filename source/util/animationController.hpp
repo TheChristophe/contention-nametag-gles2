@@ -12,7 +12,8 @@ class AnimationController {
     using identifier = int;
     AnimationController(int width, int height);
     identifier AddTriangle(float x = 0.f, float y = 0.f);
-    identifier AddText(const char *text);
+    identifier AddText(const char *text, bool wavy = false, float x = 0.f, float y = 0.f);
+    Drawers::GL::Drawable *GetDrawable(identifier id);
     void Remove(identifier id);
 
     void Draw(float time);

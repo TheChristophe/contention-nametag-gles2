@@ -11,6 +11,7 @@ namespace Drawers::GL {
         , _scaleY{ 2.f / height }
         , _fontSize{ 24 }
         , _text{}
+        , _wavy{ false }
     {
         if (FT_Init_FreeType(&_freetype)) {
             throw std::runtime_error("could not load freetype");
@@ -168,6 +169,11 @@ namespace Drawers::GL {
 
     void Fonts::Draw(float time)
     {
+        _shader->Use();
+        _shader->Set("time", time);
+        _shader->Set("wavy", _wavy);
+        _shader->Set("offset", _at);
+
         glBindBuffer(GL_ARRAY_BUFFER, _text.vbo);
         glVertexAttribPointer(_posLoc, 2, GL_FLOAT, GL_FALSE, sizeof(TextVertex), nullptr);
         glEnableVertexAttribArray(_posLoc);
@@ -176,14 +182,21 @@ namespace Drawers::GL {
 
         glBindTexture(GL_TEXTURE_2D, _text.texture);
 
-        _shader->Use();
-        _shader->Set("time", time);
-
         for (int i = 0; i < _text.quadCount; i++) {
             glDrawArrays(GL_TRIANGLE_STRIP, i * 4, 4);
         }
 
         glDisableVertexAttribArray(_posLoc);
         glDisableVertexAttribArray(_texLoc);
+    }
+
+    void Fonts::SetWavy(bool wavy)
+    {
+        _wavy = wavy;
+    }
+
+    void Fonts::MoveTo(glm::vec2 to)
+    {
+        _at = to;
     }
 } // namespace Drawers::GL

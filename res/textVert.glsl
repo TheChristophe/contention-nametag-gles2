@@ -4,6 +4,7 @@ attribute vec2 texPos;
 uniform mat4 projection;
 uniform float time;
 uniform vec2 offset;
+uniform int wavy;
 
 varying vec2 texCoord;
 
@@ -15,9 +16,13 @@ void main(void) {
 
     // offset by text position
     gl_Position = vec4(pos * scale, -1, 1);
+
     // skew text based on horizontal position and time
-    float x = pos.x * pi * 2.0;
-    gl_Position += vec4(0, sin(x + time) / 3.0, 0, 0);
+    if (wavy == 1) {
+        float x = pos.x * pi * 2.0;
+        gl_Position += vec4(0, sin(x + time) / 3.0, 0, 0);
+    }
+    
     // base offset to top left
     gl_Position += (vec4(offset, 0.0, 0.0) + vec4(-0.5, -0.5, 0, 0)) * scale;
 
