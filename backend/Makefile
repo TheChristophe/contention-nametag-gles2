@@ -1,13 +1,12 @@
 FONTS = ./fonts
 SOURCE = ./source
-OBJECTS = ./obj
 
 OBJ_CPP = $(wildcard ${SOURCE}/*.cpp) \
 		  $(wildcard ${SOURCE}/drawers/buffer/*.cpp) \
 		  $(wildcard ${SOURCE}/drawers/gl/*.cpp) \
           $(wildcard ${SOURCE}/wrappers/*.cpp) \
 		  $(wildcard ${SOURCE}/util/*.cpp)
-OBJ_O = $(patsubst %.cpp,${OBJECTS}/%.o,$(subst ./source/,,${OBJ_CPP}))
+OBJ_O = $(OBJ_CPP:.cpp=.o)
 
 TARGET = nametag
 
@@ -32,9 +31,9 @@ $(TARGET): ${OBJ_O}
 	-@echo "Compiling $@..."
 	@$(CXX) $(CXXFLAGS) $(OBJ_O) -o $@ $(LIB)
 
-${OBJECTS}/%.o : $(SOURCE)/%.cpp
+%.o : %.cpp
 	-@echo "Compiling $@..."
 	@$(CXX) $(CXXFLAGS) -c  $< -o $@ $(LIB)
-	
+
 clean:
 	find $(OBJECTS) -name "*.o" -type f -delete
