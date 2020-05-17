@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Configuration page{% endblock %}
+{% block content %}
+<h1>Configuration page</h1>
+<div class="content">
+  <!--
+  <p>
+    <h3>GET Input test</h3>
+    <input type="text" size=5 name="get-input-1" />
+    <input type="text" size=5 name="get-input-2" />
+    <button type="button" id="gettest">Run</button>
+  </p>
+-->
+  <div class="scrollers-container">
+    <div class="scroll-log" id="commandLog">
+      <div class="log-line">Log start!</div>
+    </div>
+    <div class="scroll-log" id="selector">
+      <div class="log-line">Added elements</div>
+    </div>
+  </div>
+  <p>
+    <button type="button" class="button" onclick="DeleteSelected()">Delete</button>
+  </p>
+  <p>
+    <h3>Add triangle</h3>
+    <form id="triangle-add" action="/add" method="post">
+      <input type="hidden" name="type" value="triangle" />
+      <input type="number" size=5 step=0.01 value=0 name="x" />
+      <input type="number" size=5 step=0.01 value=0 name="y" />
+      <input type="submit" class="button" id="triangle-add-submit" value="Add" />
+    </form>
+  </p>
+  <p>
+    <h3>Add text</h3>
+    <form id="text-add" action="/add" method="post">
+      <input type="hidden" name="type" value="text" />
+      <input type="number" size=5 step=0.01 value=0 name="x" />
+      <input type="number" size=5 step=0.01 value=0 name="y" />
+      <input type="text" size=5 value="Text" name="text" />
+      <input type="checkbox" name="wavy" value="true">Wavy</input>
+      <input type="submit" class="button" id="text-add-submit" value="Add" />
+    </form>
+  </p>
+</div>
+{% endblock %}

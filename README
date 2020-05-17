@@ -1,0 +1,10 @@
+Configuration page webserver
+
+Setup with:
+  - python -m venv venv
+  - . ./venv/venv
+  - pip install -r requirements.txt
+
+Run with:
+  - . ./venv/bin/activate
+  - flask run --host=0.0.0.0
