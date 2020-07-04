@@ -15,6 +15,9 @@ static bool run{ true };
 
 void signalHandler(int dummy)
 {
+    if (run == false) {
+        std::exit(-1);
+    }
     run = false;
     printf("Quitting\n");
 }
