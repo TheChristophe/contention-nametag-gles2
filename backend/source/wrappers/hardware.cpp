@@ -27,8 +27,10 @@ namespace Hardware {
 	        BCM2835_SPI_MODE3 CPOL = 1, CPHA = 1, Clock idle high, data is clocked in on rising, edge output data (change) on falling edge
             */
             bcm2835_spi_setDataMode(BCM2835_SPI_MODE0);
-            // 32 is lowest possible for SSD1322
-            bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_32);
+            // 32 is lowest compatible library value for SSD1322
+            //bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_32);
+            // 18 is lowest experimentally determined value for ssd1322
+            bcm2835_spi_setClockDivider(18);
             // select 0
             bcm2835_spi_chipSelect(BCM2835_SPI_CS0);
             // enable 0
