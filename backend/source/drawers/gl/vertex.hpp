@@ -16,6 +16,13 @@ namespace Drawers::GL {
         GLfloat texX;
         GLfloat texY;
     };
+
+    struct SpriteVertex {
+        GLfloat x;
+        GLfloat y;
+        GLfloat texX;
+        GLfloat texY;
+    };
 } // namespace Drawers::GL
 
 #endif

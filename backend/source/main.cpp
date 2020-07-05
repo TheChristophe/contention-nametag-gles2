@@ -41,8 +41,9 @@ int main(int argc, char **argv)
 
     NetConfigHandler configHandler(&animation);
 
-    animation.AddTriangle(-0.5f, 0.5f);
-    animation.AddText("Christophe");
+    //animation.AddTriangle(-0.5f, 0.5f);
+    animation.AddText("Christophe", true);
+    animation.AddSprite("res/red-panda-transparent.png", true);
 
     auto current = std::chrono::steady_clock::now();
     auto prev    = std::chrono::steady_clock::now();

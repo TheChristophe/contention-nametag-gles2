@@ -1,3 +1,8 @@
 Small nametag using Pi Zero (W) and various OLED panels
 
-Build with make, run with sudo
+Build with make
+Make a cup of tea (compilation is slow)
+Run with sudo
+
+Conventions:
+ - in glsl, texture 0 should always be the bayer matrix

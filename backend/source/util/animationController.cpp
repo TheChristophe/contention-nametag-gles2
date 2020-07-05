@@ -2,6 +2,7 @@
 
 #include "drawers/gl/drawable.hpp"
 #include "drawers/gl/fonts.hpp"
+#include "drawers/gl/sprite.hpp"
 #include "drawers/gl/triangle.hpp"
 
 #include <iostream>
@@ -28,6 +29,15 @@ AnimationController::identifier AnimationController::AddText(const char *text, b
     auto id = _nextID++;
     p->MoveTo(glm::vec2(x, y));
     p->SetWavy(wavy);
+    _drawables.emplace(id, dynamic_cast<Drawers::GL::Drawable *>(p));
+    return id;
+}
+
+AnimationController::identifier AnimationController::AddSprite(std::filesystem::path file, bool transparent, float x, float y)
+{
+    auto p  = new Drawers::GL::Sprite(_resources.LoadShader("sprite"), file, transparent);
+    auto id = _nextID++;
+    p->MoveTo(glm::vec2(x, y));
     _drawables.emplace(id, dynamic_cast<Drawers::GL::Drawable *>(p));
     return id;
 }
