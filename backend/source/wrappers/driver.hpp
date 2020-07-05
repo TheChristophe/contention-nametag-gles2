@@ -430,6 +430,7 @@ namespace Wrappers {
         void Clear(ColorT color = 0);
         void ClearDirty(ColorT color = 0);
         void Display();
+        void SetPanelPower(bool on = true);
 
         void CopyGLBuffer(uint8_t *glBuffer);
 
@@ -454,8 +455,9 @@ namespace Wrappers {
         void WriteDataByte(uint8_t data);
         void WriteData(uint8_t *buffer, uint32_t length);
 
-        // 1 bpp buffer
-        uint8_t _buffer[std::max(std::max(SH1106::Size / 8, SSD1305::Size / 8), SSD1322::Size / 2)];
+        // 1-4 bpp buffer
+        static const auto _bufferSize{ std::max({ SH1106::Size / 8, SSD1305::Size / 8, SSD1322::Size / 2 }) };
+        uint8_t _buffer[_bufferSize];
         State _state;
 
         Mode _mode;

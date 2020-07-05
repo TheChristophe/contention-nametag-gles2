@@ -31,6 +31,7 @@ namespace Wrappers {
 
         Clear();
         Display();
+        SetPanelPower(true);
     }
 
     Driver::~Driver()
@@ -149,6 +150,32 @@ namespace Wrappers {
 
                 // write display buffer
                 WriteData(buffer, _state.width);
+            }
+        }
+    }
+
+    void Driver::SetPanelPower(bool on)
+    {
+        if (on) {
+            if (_mode == Mode::SSD1322) {
+                WriteRegistry(SSD1322::Registry::PanelOn);
+            }
+            else if (_mode == Mode::SSD1305) {
+                WriteRegistry(SSD1305::Registry::PanelOn);
+            }
+            else if (_mode == Mode::SH1106) {
+                WriteRegistry(SH1106::Registry::PanelOn);
+            }
+        }
+        else {
+            if (_mode == Mode::SSD1322) {
+                WriteRegistry(SSD1322::Registry::PanelOff);
+            }
+            else if (_mode == Mode::SSD1305) {
+                WriteRegistry(SSD1305::Registry::PanelOff);
+            }
+            else if (_mode == Mode::SH1106) {
+                WriteRegistry(SH1106::Registry::PanelOff);
             }
         }
     }
@@ -309,8 +336,6 @@ namespace Wrappers {
             WriteRegistry(SSD1322::Registry::DisableInverseDisplay);
 
             WriteRegistry(SSD1322::Registry::ExitPartialDispaly);
-
-            WriteRegistry(SSD1322::Registry::PanelOn);
         }
         else if (_mode == Mode::SH1106) {
             WriteRegistry(SH1106::Registry::PanelOff);
@@ -349,8 +374,6 @@ namespace Wrappers {
 
             WriteRegistry(SH1106::Registry::DisableForceDisplayOn);
             WriteRegistry(SH1106::Registry::DisableInverseDisplay);
-
-            WriteRegistry(SH1106::Registry::PanelOn);
         }
         else if (_mode == Mode::SSD1305) {
             WriteRegistry(SSD1305::Registry::PanelOff);
@@ -376,8 +399,6 @@ namespace Wrappers {
             WriteRegistry(0x12);
             WriteRegistry(SSD1305::Registry::SetVComH);
             WriteRegistry(0x08);
-
-            WriteRegistry(SSD1305::Registry::PanelOn);
         }
     }
 
