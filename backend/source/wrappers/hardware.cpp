@@ -29,8 +29,9 @@ namespace Hardware {
             bcm2835_spi_setDataMode(BCM2835_SPI_MODE0);
             // 32 is lowest compatible library value for SSD1322
             //bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_32);
-            // 18 is lowest experimentally determined value for ssd1322
-            bcm2835_spi_setClockDivider(18);
+            // 18 is lowest experimentally determined working value for ssd1322
+            // but 20 is more stable
+            bcm2835_spi_setClockDivider(20);
             // select 0
             bcm2835_spi_chipSelect(BCM2835_SPI_CS0);
             // enable 0
