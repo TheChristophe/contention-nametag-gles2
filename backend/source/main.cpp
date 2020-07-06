@@ -69,11 +69,11 @@ int main(int argc, char **argv)
 
         sectionTimes[1] = std::chrono::steady_clock::now();
 
+        glWrapper.PostDraw(glBuffer);
         driver.CopyGLBuffer(glBuffer);
 
         sectionTimes[2] = std::chrono::steady_clock::now();
 
-        glWrapper.PostDraw(glBuffer);
         driver.Display();
         driver.Clear();
 
@@ -84,7 +84,8 @@ int main(int argc, char **argv)
         //printf("Frametime: %llims\n", delta.count());
         totalFrameTimes += std::chrono::duration_cast<std::chrono::milliseconds>(current - prev).count();
         for (int i = 0; i < 3; i++) {
-            sectionDeltas[i] += std::chrono::duration_cast<std::chrono::microseconds>(sectionTimes[i + 1] - sectionTimes[i]).count();
+            auto timeDifference{ std::chrono::duration_cast<std::chrono::microseconds>(sectionTimes[i + 1] - sectionTimes[i]).count() };
+            sectionDeltas[i] += timeDifference;
         }
         frameCount++;
         std::swap(current, prev);
