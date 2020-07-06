@@ -42,12 +42,6 @@ namespace Wrappers {
      */
     void OpenGL::PostDraw(uint8_t *outBuffer)
     {
-        /*
-       TODO: improve performance in the future with PBOs if possible
-       See: https://zhangtemplar.github.io/pbo/
-            https://www.roxlu.com/2014/048/fast-pixel-transfers-with-pixel-buffer-objects
-    */
-
         // copy to out buffer
         glReadPixels(0, 0, _wrapper.GetWidth(), _wrapper.GetHeight(), GL_RGB, GL_UNSIGNED_BYTE, outBuffer);
     }
