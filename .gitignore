@@ -14,3 +14,5 @@ Thumbs.db
 develop/memcheck.log*
 test.bmp
 
+venv/
+__pycache__
