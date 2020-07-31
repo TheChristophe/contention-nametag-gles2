@@ -1,7 +1,7 @@
 # app.py
 
 from flask import Flask, jsonify, render_template, request
-app = Flask(__name__)
+app = Flask(__name__, template_folder='res/templates', static_folder='res/static', static_url_path='/static')
 
 from ipcqueue import posixmq
 from ipcqueue.serializers import RawSerializer

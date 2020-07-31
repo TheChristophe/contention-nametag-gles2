@@ -17,7 +17,7 @@ namespace Drawers::GL {
             throw std::runtime_error("could not load freetype");
         }
 
-        if (FT_New_Face(_freetype, "ttf/DejaVuSans.ttf", 0, &_face)) {
+        if (FT_New_Face(_freetype, "res/ttf/DejaVuSans.ttf", 0, &_face)) {
             throw std::runtime_error("could not open font");
         }
         FT_Set_Pixel_Sizes(_face, 0, _fontSize);
