@@ -17,7 +17,7 @@ namespace Wrappers {
         int GetHeight() const;
 
         private:
-        EGL _wrapper;
+        GLContextCreator _wrapper;
     };
 } // namespace Wrappers
 

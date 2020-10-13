@@ -5,6 +5,7 @@
 namespace Hardware {
     bool Init()
     {
+#ifndef DEV_MODE
         if (bcm2835_init() == 0) {
             return false;
         }
@@ -53,6 +54,7 @@ namespace Hardware {
     	    printf("buf = %d",buf[0]);
     	    */
         }
+#endif
         return true;
     }
 

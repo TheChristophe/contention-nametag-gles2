@@ -3,6 +3,7 @@
 namespace Wrappers {
     static const char *eglGetErrorStr()
     {
+#ifndef DEV_MODE
         switch (eglGetError()) {
             case EGL_SUCCESS: {
                 return "The last function succeeded without error.";
@@ -66,6 +67,7 @@ namespace Wrappers {
 
             } break;
         }
+#endif
         return "Unknown error!";
     }
 
@@ -74,10 +76,28 @@ namespace Wrappers {
     {
     }
 
-    EGL::EGL(int width, int height)
+    GLContextCreator::GLContextCreator(int width, int height)
         : _width(width)
         , _height(height)
     {
+#ifdef DEV_MODE
+        _window = SDL_CreateWindow("gles2", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_OPENGL);
+        if (_window == nullptr) {
+            throw EGLError("SDL_CreateWindow");
+        }
+        //if (SDL_GL_LoadLibrary("libGLESv2.so") < 0) {
+        //    throw EGLError("SDL_GL_LoadLibrary");
+        //}
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+        _context = SDL_GL_CreateContext(_window);
+        if (_context == nullptr) {
+            throw EGLError("SDL_GL_CreateContext");
+        }
+        if (SDL_GL_MakeCurrent(_window, _context) < 0) {
+            throw EGLError("SDL_GL_MakeCurrent");
+        }
+#else
         _display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
         if (_display == EGL_NO_DISPLAY) {
             throw EGLError(std::string("Failed to get EGL display! ") + eglGetErrorStr());
@@ -137,22 +157,33 @@ namespace Wrappers {
         }
 
         eglMakeCurrent(_display, _surface, _surface, _context);
+#endif
     }
 
-    EGL::~EGL()
+    GLContextCreator::~GLContextCreator()
     {
+#ifdef DEV_MODE
+#else
         eglDestroyContext(_display, _context);
         eglDestroySurface(_display, _surface);
         eglTerminate(_display);
+#endif
     }
 
-    int EGL::GetWidth() const
+    int GLContextCreator::GetWidth() const
     {
         return _width;
     }
 
-    int EGL::GetHeight() const
+    int GLContextCreator::GetHeight() const
     {
         return _height;
     }
+
+#ifdef DEV_MODE
+    SDL_Window *GLContextCreator::GetWindow()
+    {
+        return _window;
+    }
+#endif
 } // namespace Wrappers

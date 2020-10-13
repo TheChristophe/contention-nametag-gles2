@@ -1,9 +1,13 @@
 #ifndef WRAPPERS_EGL_HPP
 #define WRAPPERS_EGL_HPP
 
+#ifdef DEV_MODE
+#include <SDL2/SDL_video.h>
+#else
 #include <EGL/egl.h>
 // undefine countof from vcos_types for glm
 #undef countof
+#endif
 
 #include <stdexcept>
 #include <string>
@@ -14,15 +18,26 @@ namespace Wrappers {
         EGLError(std::string str);
     };
 
-    class EGL {
+    class GLContextCreator {
         public:
-        EGL(int width, int height);
-        ~EGL();
+        GLContextCreator(int width, int height);
+        ~GLContextCreator();
 
         int GetWidth() const;
         int GetHeight() const;
 
+#ifdef DEV_MODE
+        SDL_Window *GetWindow();
+#endif
+
         private:
+        int _width;
+        int _height;
+
+#ifdef DEV_MODE
+        SDL_Window *_window;
+        SDL_GLContext _context;
+#else
         EGLDisplay _display;
         int _major;
         int _minor;
@@ -30,8 +45,7 @@ namespace Wrappers {
         EGLContext _context;
         EGLSurface _surface;
 
-        int _width;
-        int _height;
+#endif
     };
 } // namespace Wrappers
 

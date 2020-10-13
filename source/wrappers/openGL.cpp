@@ -3,6 +3,9 @@
 #include "egl.hpp"
 
 #include <GLES2/gl2.h>
+#ifdef DEV_MODE
+#include <SDL2/SDL_video.h>
+#endif
 
 #include <cstdio>
 #include <stdexcept>
@@ -42,8 +45,12 @@ namespace Wrappers {
      */
     void OpenGL::PostDraw(uint8_t *outBuffer)
     {
+#ifdef DEV_MODE
+        SDL_GL_SwapWindow(_wrapper.GetWindow());
+#else
         // copy to out buffer
         glReadPixels(0, 0, _wrapper.GetWidth(), _wrapper.GetHeight(), GL_RGB, GL_UNSIGNED_BYTE, outBuffer);
+#endif
     }
 
     int OpenGL::GetWidth() const
