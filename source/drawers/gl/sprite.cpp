@@ -42,11 +42,11 @@ namespace Drawers::GL {
         // remember half pixel correction
         glm::vec2 textureFrom;
         textureFrom.x = static_cast<float>(texCoord.x + 0.5) / _texture->GetSize().x;
-        textureFrom.y = /*1 - */ static_cast<float>((texCoord + texSize).y - 0.5) / _texture->GetSize().y;
+        textureFrom.y = 1 - static_cast<float>(texCoord.y + 0.5) / _texture->GetSize().y;
 
         glm::vec2 textureTo;
         textureTo.x = static_cast<float>((texCoord + texSize).x - 0.5) / _texture->GetSize().x;
-        textureTo.y = /*1 - */ static_cast<float>((texCoord).y + 0.5) / _texture->GetSize().y;
+        textureTo.y = 1 - static_cast<float>((texCoord + texSize).y - 0.5) / _texture->GetSize().y;
 
         SpriteVertex vertices[6] = {
             { 0.f, 0.f, textureFrom.x, textureFrom.y },

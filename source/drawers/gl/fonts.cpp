@@ -119,8 +119,8 @@ namespace Drawers::GL {
 
             if constexpr (lowRes) {
                 // left vertices
-                _text.vertices[i * 4]     = TextVertex{ xPos, 1, xPos, 1 };
-                _text.vertices[i * 4 + 1] = TextVertex{ xPos, 0, xPos, 0 };
+                _text.vertices[i * 4]     = TextVertex{ xPos, 1, xPos, 0 };
+                _text.vertices[i * 4 + 1] = TextVertex{ xPos, 0, xPos, 1 };
             }
 
             // copy bitmaps to texture
@@ -144,8 +144,8 @@ namespace Drawers::GL {
             xPos = static_cast<float>(xOffset) / _text.textureWidth;
             if constexpr (lowRes) {
                 // right vertices
-                _text.vertices[i * 4 + 2] = TextVertex{ xPos, 1, xPos, 1 };
-                _text.vertices[i * 4 + 3] = TextVertex{ xPos, 0, xPos, 0 };
+                _text.vertices[i * 4 + 2] = TextVertex{ xPos, 1, xPos, 0 };
+                _text.vertices[i * 4 + 3] = TextVertex{ xPos, 0, xPos, 1 };
             }
         }
 

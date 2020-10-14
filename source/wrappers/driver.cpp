@@ -188,9 +188,9 @@ namespace Wrappers {
                 for (int x = 0; x < 256; x += 2) {
                     _buffer[(y * _state.width + x) / 2] = 0;
                     // left pixel is 4 high bits
-                    _buffer[(y * _state.width + x) / 2] |= glBuffer[(y * _state.width + x) * 3] & 0xF0;
+                    _buffer[(y * _state.width + x) / 2] |= glBuffer[((63 - y) * _state.width + x) * 3] & 0xF0;
                     // right pixel is 4 low bits
-                    _buffer[(y * _state.width + x) / 2] |= glBuffer[(y * _state.width + x + 1) * 3] >> 4;
+                    _buffer[(y * _state.width + x) / 2] |= glBuffer[((63 - y) * _state.width + x + 1) * 3] >> 4;
                 }
             }
         }
