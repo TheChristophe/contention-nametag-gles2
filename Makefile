@@ -4,6 +4,7 @@ SOURCE = ./source
 OBJ_CPP = $(wildcard ${SOURCE}/*.cpp) \
 		  $(wildcard ${SOURCE}/drawers/buffer/*.cpp) \
 		  $(wildcard ${SOURCE}/drawers/gl/*.cpp) \
+		  $(wildcard ${SOURCE}/net/*.cpp) \
           $(wildcard ${SOURCE}/wrappers/*.cpp) \
 		  $(wildcard ${SOURCE}/util/*.cpp)
 
@@ -13,12 +14,12 @@ DEBUG_FLAGS+=-Og -ggdb -Wall -Wextra -Wformat -Wfloat-equal -Wshadow -Wpointer-a
 OPT_FLAGS+=-O3 -march=native -mtune=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard
 DEV_FLAGS+=-DDEV_MODE
 
-INCLUDE = -isystem /opt/vc/include -isystem include -I/usr/include/freetype2 -iquote source
+INCLUDE = -isystem /opt/vc/include -isystem include -I/usr/include/freetype2 -isystem include/uWebSockets/src -iquote source -isystem include/uWebSockets/uSockets/src
 
-EMBEDDED_LIB = -lbcm2835 -lbrcmEGL -lbrcmGLESv2 -L/opt/vc/lib -lfreetype -lrt
-DESKTOP_LIB = -lfreetype -lrt -lSDL2 -lGLESv2
+EMBEDDED_LIB = -lbcm2835 -lbrcmEGL -lbrcmGLESv2 -L/opt/vc/lib -lfreetype -lr -lz -Linclude/uWebSockets/uSockets/ -l:uSockets.a
+DESKTOP_LIB = -lfreetype -lrt -lSDL2 -lGLESv2 -lz -Linclude/uWebSockets/uSockets/ -l:uSockets.a
 
-CXXFLAGS+=-std=c++2a -pipe -Winvalid-pch $(INCLUDE) -fexceptions -Wno-psabi
+CXXFLAGS+=-std=c++2a -pipe -Winvalid-pch $(INCLUDE) -fexceptions -Wno-psabi -pthread
 
 all: default
 default: debug

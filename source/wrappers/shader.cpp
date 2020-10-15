@@ -2,6 +2,7 @@
 
 #include "util/io.hpp" // util::StringFromFile
 
+#include <iostream>
 #include <stdexcept>
 
 #ifdef DEBUGGING
@@ -214,13 +215,13 @@ namespace Wrappers {
 
     void Shader::CheckCompileErrors(const GLuint &shader, const char *type)
     {
-        GLint success;
+        GLint success{};
         GLchar infoLog[1024];
         if (strcmp(type, "program")) {
             glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
             if (!success) {
                 glGetShaderInfoLog(shader, 1024, nullptr, infoLog);
-                throw std::runtime_error(std::string("shader compile fail:") + type + " " + infoLog);
+                throw std::runtime_error(std::string("shader compile fail: ") + std::string(type) + " because of " + std::string(infoLog));
             }
         }
         else {

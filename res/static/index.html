@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Configuration page</title>
+  <link rel="stylesheet" href="/css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://kit.fontawesome.com/3f2be7d654.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type=text/javascript src="/js"></script>
+</head>
+
+<body>
+  <div id="content-container">
+    <div id="content">
+      <h1>Configuration page</h1>
+      <div class="content">
+        <div class="scrollers-container">
+          <div class="scroll-log" id="commandLog">
+            <div class="log-line">Log start!</div>
+          </div>
+          <div class="scroll-log" id="selector">
+            <div class="log-line">Added elements</div>
+          </div>
+        </div>
+        <p>
+          <button type="button" class="button" onclick="DeleteSelected()">Delete</button>
+        </p>
+        <p>
+        <h3>Add triangle</h3>
+        <form id="triangle-add" action="/add" method="post">
+          <input type="hidden" name="type" value="triangle" />
+          <input type="number" size=5 step=0.01 value=0 name="x" />
+          <input type="number" size=5 step=0.01 value=0 name="y" />
+          <input type="submit" class="button" id="triangle-add-submit" value="Add" />
+        </form>
+        </p>
+        <p>
+        <h3>Add text</h3>
+        <form id="text-add" action="/add" method="post">
+          <input type="hidden" name="type" value="text" />
+          <input type="number" size=5 step=0.01 value=0 name="x" />
+          <input type="number" size=5 step=0.01 value=0 name="y" />
+          <input type="text" size=5 value="Text" name="text" />
+          <input type="checkbox" name="wavy" value="true">Wavy</input>
+          <input type="submit" class="button" id="text-add-submit" value="Add" />
+        </form>
+        </p>
+      </div>
+    </div>
+</body>
+
+</html>
