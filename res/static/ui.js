@@ -9,6 +9,17 @@ function Log(text) {
     document.getElementById("commandLog").appendChild(textDiv);
 }
 
+function getFormData(form) {
+    let unindexed_array = form.serializeArray();
+    let indexed_array = {};
+
+    $.map(unindexed_array, function (n, i) {
+        indexed_array[n['name']] = n['value'];
+    });
+
+    return indexed_array;
+}
+
 $(function () {
     /*
     $('button#gettest').bind('click', function () {
@@ -31,13 +42,14 @@ $(function () {
             $.ajax({
                 type: form.attr('method'),
                 url: form.attr('action'),
-                data: form.serialize(),
+                data: JSON.stringify(getFormData(form)),
+                contentType: 'application/json;charset=UTF-8',
                 success: function (data) {
-                    Log("POST " + formName + ": " + data.result['id']);
-                    AddElement(data.result);
+                    Log("POST " + formName + ": " + data['id']);
+                    AddElement(data);
                 },
                 error: function (data) {
-                    Log("POST error " + formName + ": " + data.result);
+                    Log("POST error " + formName + ": " + data);
                 },
             });
 
@@ -71,7 +83,7 @@ $(function () {
 function DeleteSelected() {
     if (selected) {
         $.ajax({
-            url: $SCRIPT_ROOT + '/delete',
+            url: /*$SCRIPT_ROOT +*/ '/delete',
             type: 'PUT',
             contentType: 'application/json',
             dataType: "json",

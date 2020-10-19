@@ -11,23 +11,10 @@
 #include <memory>
 
 namespace Drawers::GL {
-    struct TextInfo {
-        TextVertex *vertices;
-        int vertexCount;
-        int quadCount;
-        GLuint vbo;
-
-        GLuint texture;
-        uint8_t *textureBuffer;
-        int textureWidth;
-        int textureHeight;
-
-        int charCount;
-    };
-
     class Fonts : public Drawable {
         public:
         Fonts(std::shared_ptr<Wrappers::Shader> shader, int width, int height, const char *text);
+        Fonts(const Fonts &) = delete;
         ~Fonts();
 
         void Draw(float time) final;
@@ -49,7 +36,19 @@ namespace Drawers::GL {
 
         int _fontSize;
 
-        TextInfo _text;
+        struct {
+            std::unique_ptr<TextVertex[]> vertices;
+            int vertexCount;
+            int quadCount;
+            GLuint vbo;
+
+            GLuint texture;
+            std::unique_ptr<uint8_t[]> textureBuffer;
+            int textureWidth;
+            int textureHeight;
+
+            int charCount;
+        } _text;
 
         bool _wavy;
 

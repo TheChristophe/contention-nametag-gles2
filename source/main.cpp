@@ -1,7 +1,7 @@
 
 #include "drawers/buffer/drawer.hpp"
+#include "net/server.hpp"
 #include "util/animationController.hpp"
-#include "util/netConfigHandler.hpp"
 #include "util/resourceHandler.hpp"
 #include "util/time.hpp"
 #include "wrappers/openGL.hpp"
@@ -10,6 +10,7 @@
 #include <csignal>
 #include <cstdio>
 #include <ctime>
+#include <thread>
 
 static bool run{ true };
 
@@ -39,8 +40,6 @@ int main(int argc, char **argv)
     ResourceHandler resHandler(driver.GetWidth(), driver.GetHeight());
     AnimationController animation(driver.GetWidth(), driver.GetHeight());
 
-    NetConfigHandler configHandler(&animation);
-
     //animation.AddTriangle(-0.5f, 0.5f);
     animation.AddText("Christophe", true);
     animation.AddSprite("res/red-panda-transparent.png", true);
@@ -57,10 +56,15 @@ int main(int argc, char **argv)
 
     float now{};
 
+    WebServer server(animation);
+    std::thread serverThread([&server]() {
+        server.Run();
+    });
+
     while (run) {
         now = static_cast<double>(util::timing::Get() - startTime) / static_cast<double>(util::timing::Frequency());
 
-        configHandler.Poll();
+        animation.ProcessRequests();
 
         sectionTimes[0] = std::chrono::steady_clock::now();
 
@@ -90,6 +94,9 @@ int main(int argc, char **argv)
         frameCount++;
         std::swap(current, prev);
     }
+
+    server.Halt();
+    serverThread.join();
 
     delete[] glBuffer;
 

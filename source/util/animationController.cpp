@@ -14,6 +14,24 @@ AnimationController::AnimationController(int width, int height)
 {
 }
 
+std::future<AnimationController::identifier> AnimationController::ReqAddTriangle(float x, float y)
+{
+    auto &r  = _requests.emplace_back();
+    r.lambda = [this, x, y, &r]() {
+        r.promise.set_value(this->AddTriangle(x, y));
+    };
+    return r.promise.get_future();
+}
+
+std::future<AnimationController::identifier> AnimationController::ReqAddText(std::string text, bool wavy, float x, float y)
+{
+    auto &r  = _requests.emplace_back();
+    r.lambda = [this, text, wavy, x, y, &r]() {
+        r.promise.set_value(this->AddText(text.c_str(), wavy, x, y));
+    };
+    return r.promise.get_future();
+}
+
 AnimationController::identifier AnimationController::AddTriangle(float x, float y)
 {
     auto p  = new Drawers::GL::Triangle(_resources.LoadShader("triangle"));
@@ -55,6 +73,14 @@ void AnimationController::Remove(AnimationController::identifier id)
     if (auto it = _drawables.find(id); it != _drawables.end()) {
         _drawables.erase(it);
     }
+}
+
+void AnimationController::ProcessRequests()
+{
+    for (auto &r : _requests) {
+        r.lambda();
+    }
+    _requests.clear();
 }
 
 void AnimationController::Draw(float time)

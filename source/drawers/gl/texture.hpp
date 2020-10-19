@@ -11,6 +11,7 @@ namespace Drawers::GL {
     class Texture {
         public:
         Texture(std::filesystem::path file, const bool &rgba = false, const bool nearestNeighbour = false);
+        Texture(const Texture &) = delete;
         ~Texture();
 
         /**

@@ -59,8 +59,6 @@ namespace Drawers::GL {
 
     void Fonts::LoadText(const char *text)
     {
-        constexpr bool lowRes{ 1 };
-
         // height above the baseline
         int glyphHeight{};
         // height below the baseline
@@ -70,7 +68,7 @@ namespace Drawers::GL {
 
         for (const char *p = text; *p; p++) {
             if (FT_Load_Char(_face, *p, FT_LOAD_RENDER)) {
-                throw std::runtime_error(std::string("failed to load ") + text + std::string(" due to '") + *p + std::string("'"));
+                throw std::runtime_error(std::string("failed to load \"") + text + std::string("\" due to '") + *p + std::string("'"));
             }
 
             auto &glyph = _face->glyph;
@@ -86,21 +84,13 @@ namespace Drawers::GL {
 
         // create string texture buffer
         _text.textureHeight = glyphHeight + glyphLowth;
-        _text.textureBuffer = new uint8_t[_text.textureWidth * _text.textureHeight];
-        memset(_text.textureBuffer, 0, _text.textureWidth * _text.textureHeight);
+        _text.textureBuffer = std::make_unique<uint8_t[]>(_text.textureWidth * _text.textureHeight);
 
-        _text.charCount = charCount;
+        _text.charCount   = charCount;
+        _text.quadCount   = charCount;
+        _text.vertexCount = charCount * 4;
 
-        if constexpr (lowRes) {
-            _text.quadCount   = charCount;
-            _text.vertexCount = charCount * 4;
-        }
-        else {
-            _text.quadCount   = 100;
-            _text.vertexCount = 100 * 4;
-        }
-
-        _text.vertices = new TextVertex[_text.vertexCount];
+        _text.vertices = std::make_unique<TextVertex[]>(_text.vertexCount);
 
         // current x coordinate in texture buffer
         int xOffset{};
@@ -117,11 +107,9 @@ namespace Drawers::GL {
 
             GLfloat xPos = static_cast<float>(xOffset) / _text.textureWidth;
 
-            if constexpr (lowRes) {
-                // left vertices
-                _text.vertices[i * 4]     = TextVertex{ xPos, 1, xPos, 0 };
-                _text.vertices[i * 4 + 1] = TextVertex{ xPos, 0, xPos, 1 };
-            }
+            // left vertices
+            _text.vertices[i * 4]     = TextVertex{ xPos, 1, xPos, 0 };
+            _text.vertices[i * 4 + 1] = TextVertex{ xPos, 0, xPos, 1 };
 
             // copy bitmaps to texture
             for (unsigned y = 0; y < glyph->bitmap.rows; y++) {
@@ -142,29 +130,18 @@ namespace Drawers::GL {
             xOffset += glyph->bitmap.width;
 
             xPos = static_cast<float>(xOffset) / _text.textureWidth;
-            if constexpr (lowRes) {
-                // right vertices
-                _text.vertices[i * 4 + 2] = TextVertex{ xPos, 1, xPos, 0 };
-                _text.vertices[i * 4 + 3] = TextVertex{ xPos, 0, xPos, 1 };
-            }
-        }
-
-        if constexpr (lowRes == false) {
-            for (i = 0; i < _text.quadCount; i++) {
-                _text.vertices[i * 4]     = TextVertex{ static_cast<float>(i) / _text.quadCount, 1, static_cast<float>(i) / _text.quadCount, 1 };
-                _text.vertices[i * 4 + 1] = TextVertex{ static_cast<float>(i) / _text.quadCount, 0, static_cast<float>(i) / _text.quadCount, 0 };
-                _text.vertices[i * 4 + 2] = TextVertex{ static_cast<float>(i + 1) / _text.quadCount, 1, static_cast<float>(i + 1) / _text.quadCount, 1 };
-                _text.vertices[i * 4 + 3] = TextVertex{ static_cast<float>(i + 1) / _text.quadCount, 0, static_cast<float>(i + 1) / _text.quadCount, 0 };
-            }
+            // right vertices
+            _text.vertices[i * 4 + 2] = TextVertex{ xPos, 1, xPos, 0 };
+            _text.vertices[i * 4 + 3] = TextVertex{ xPos, 0, xPos, 1 };
         }
 
         // load vertices to GL buffer
         glBindBuffer(GL_ARRAY_BUFFER, _text.vbo);
-        glBufferData(GL_ARRAY_BUFFER, _text.vertexCount * sizeof(TextVertex), _text.vertices, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, _text.vertexCount * sizeof(TextVertex), _text.vertices.get(), GL_STATIC_DRAW);
 
         // create texture
         glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, _text.textureWidth, _text.textureHeight, 0,
-            GL_LUMINANCE, GL_UNSIGNED_BYTE, _text.textureBuffer);
+            GL_LUMINANCE, GL_UNSIGNED_BYTE, _text.textureBuffer.get());
     }
 
     void Fonts::Draw(float time)

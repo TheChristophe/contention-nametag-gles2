@@ -17,7 +17,7 @@ class ResourceHandler {
     std::shared_ptr<Wrappers::Shader> LoadShader(const std::string &identifier);
 
     private:
-    std::map<std::string_view, std::shared_ptr<Wrappers::Shader>> _shaders;
+    std::map<std::string, std::shared_ptr<Wrappers::Shader>> _shaders;
     const int _width;
     const int _height;
     std::unique_ptr<ResourceHandlerConfig> _;
