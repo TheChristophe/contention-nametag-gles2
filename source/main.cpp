@@ -64,6 +64,8 @@ int main(int argc, char **argv)
     while (run) {
         now = static_cast<double>(util::timing::Get() - startTime) / static_cast<double>(util::timing::Frequency());
 
+        animation.ProcessRequests();
+
         sectionTimes[0] = std::chrono::steady_clock::now();
 
         glWrapper.PreDraw();

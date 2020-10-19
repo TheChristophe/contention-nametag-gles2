@@ -16,6 +16,7 @@ namespace Drawers::GL {
     class Triangle : public Drawable {
         public:
         Triangle(std::shared_ptr<Wrappers::Shader> shader);
+        Triangle(const Triangle &) = delete;
 
         void Draw(float time) final;
 

@@ -48,12 +48,11 @@ nlohmann::json WebServer::Handle(int type, const nlohmann::json &metadata)
             auto &data = metadata;
             auto x{ std::stof(data["x"].get<std::string>()) };
             auto y{ std::stof(data["y"].get<std::string>()) };
-            auto id{ _controller.AddTriangle(x, y) };
+            auto id{ _controller.ReqAddTriangle(x, y) };
 
             return json{
                 { "type", "triangle" },
-                { "uuid", "foo" /*metadata["uuid"]*/ },
-                { "id", id }
+                { "id", id.get() }
             };
         }
         else if (metadata["type"] == "text") {
@@ -62,12 +61,11 @@ nlohmann::json WebServer::Handle(int type, const nlohmann::json &metadata)
             auto y{ std::stof(data["y"].get<std::string>()) };
             auto text{ data["text"].get<std::string>() };
             bool wavy{ data.contains("wavy") };
-            auto id{ _controller.AddText(text.c_str(), wavy, x, y) };
+            auto id{ _controller.ReqAddText(text.c_str(), wavy, x, y) };
 
             return json{
                 { "type", "text" },
-                { "uuid", "barbar" },
-                { "id", id }
+                { "id", id.get() }
             };
         }
     }

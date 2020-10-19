@@ -13,6 +13,7 @@ namespace Drawers::GL {
     class Sprite : public Drawable {
         public:
         Sprite(std::shared_ptr<Wrappers::Shader> shader, std::filesystem::path file, bool transparent = false, glm::vec2 texCoord = glm::vec2(0, 0), glm::vec2 texSize = glm::vec2(-1, -1));
+        Sprite(const Sprite &) = delete;
         virtual ~Sprite();
 
         //uint32_t GetVAO() const;

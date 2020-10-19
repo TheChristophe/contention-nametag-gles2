@@ -14,6 +14,7 @@ namespace Drawers::GL {
     class Fonts : public Drawable {
         public:
         Fonts(std::shared_ptr<Wrappers::Shader> shader, int width, int height, const char *text);
+        Fonts(const Fonts &) = delete;
         ~Fonts();
 
         void Draw(float time) final;
