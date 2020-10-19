@@ -2,22 +2,15 @@
 
 ### Backend
 Build with:
-  1. make
-
-~~Make a cup of tea (compilation is slow)~~
+- `make release`
+ - if you just want to build the app on a pi zero
+- `make debug`
+ - if you want to build and develop on the pi zero
+- `make devmode`
+ - if you want to develop on desktop (uses a window instead of an oled panel)
 
 Run with:
-1. Run with sudo
+1. Run with sudo (due to GPIO permissions)
 
 Conventions:
  - in glsl, texture 0 should always be the bayer matrix
-
-### Frontend
-Setup with:
-1. python -m venv venv
-2. . ./venv/bin/activate
-3. pip install -r requirements.txt
-
-Run with:
-1. . ./venv/bin/activate
-1. flask run --host=0.0.0.0

@@ -10,9 +10,3 @@ docs/
 nametag
 Thumbs.db
 
-# debugging files
-develop/memcheck.log*
-test.bmp
-
-venv/
-__pycache__
