@@ -101,7 +101,7 @@ void WebServer::Run()
                 std::string buffer;
                 if (last == false) {
                     res->writeStatus("400 Bad Request");
-                    res->end("<html><body>error</body></html>");
+                    res->end("<!DOCTYPE html><html lang=\"en\"><body>error</body></html>");
                 }
                 buffer.append(data.data(), data.size());
 
@@ -110,7 +110,7 @@ void WebServer::Run()
                 res->writeStatus("200 OK");
                 res->writeHeader("content-type", "application/json");
 
-                res->end("{}");
+                res->end(out);
             });
             res->onAborted([]() {
                 // dunno
@@ -123,7 +123,7 @@ void WebServer::Run()
                 std::string buffer;
                 if (last == false) {
                     res->writeStatus("400 Bad Request");
-                    res->end("<html><body>error</body></html>");
+                    res->end("<!DOCTYPE html><html lang=\"en\"><body>error</body></html>");
                 }
                 buffer.append(data.data(), data.size());
 
