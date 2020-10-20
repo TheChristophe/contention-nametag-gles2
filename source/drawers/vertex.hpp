@@ -3,7 +3,7 @@
 
 #include <GLES2/gl2.h>
 
-namespace Drawers::GL {
+namespace Drawers {
     struct DecoVertex {
         GLfloat x;
         GLfloat y;

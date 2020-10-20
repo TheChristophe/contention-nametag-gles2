@@ -9,7 +9,7 @@
 #include <cstdint>
 #include <stdexcept>
 
-namespace Drawers::GL {
+namespace Drawers {
     // x, y, z
     static const DecoVertex vertices[]{
         DecoVertex{ 2.0f, 0.0f, 0.f },    // cos/sin  0

@@ -4,7 +4,7 @@
 
 #include <cstdio>
 
-namespace Drawers::GL {
+namespace Drawers {
 
     const int mipmapLevels = 8;
 

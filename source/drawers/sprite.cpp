@@ -9,8 +9,7 @@
 static_assert(sizeof(GLfloat) == sizeof(float));
 static_assert(sizeof(GLuint) == sizeof(uint32_t));
 
-namespace Drawers::GL {
-
+namespace Drawers {
     Sprite::Sprite(std::shared_ptr<Wrappers::Shader> shader, std::filesystem::path file, bool transparent, glm::vec2 texCoord, glm::vec2 texSize)
         : _shader(shader)
         , _size(1.f, 1.f)

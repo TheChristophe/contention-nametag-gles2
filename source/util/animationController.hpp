@@ -1,7 +1,7 @@
 #ifndef ANIMATION_CONTROLLER_HPP
 #define ANIMATION_CONTROLLER_HPP
 
-#include "drawers/gl/drawable.hpp"
+#include "drawers/drawable.hpp"
 #include "util/resourceHandler.hpp"
 
 #include <deque>
@@ -22,14 +22,14 @@ class AnimationController {
     identifier AddTriangle(float x = 0.f, float y = 0.f);
     identifier AddText(const char *text, bool wavy = false, float x = 0.f, float y = 0.f);
     identifier AddSprite(std::filesystem::path file, bool transparent = false, /*bool wavy = false, */ float x = 0.f, float y = 0.f);
-    Drawers::GL::Drawable *GetDrawable(identifier id);
+    Drawers::Drawable *GetDrawable(identifier id);
     void Remove(identifier id);
 
     void ProcessRequests();
     void Draw(float time);
 
     private:
-    std::map<identifier, std::unique_ptr<Drawers::GL::Drawable>> _drawables;
+    std::map<identifier, std::unique_ptr<Drawers::Drawable>> _drawables;
     identifier _nextID{ 0 };
     ResourceHandler _resources;
     int _width;

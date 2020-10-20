@@ -1,14 +1,14 @@
 #ifndef DRAWERS_GL_DECORATION_HPP
 #define DRAWERS_GL_DECORATION_HPP
 
-#include "drawers/gl/drawable.hpp"
+#include "drawable.hpp"
 #include "wrappers/shader.hpp"
 
 #include <glm/glm.hpp>
 
 #include <memory>
 
-namespace Drawers::GL {
+namespace Drawers {
     /**
      * @brief OpenGL drawing class for background pictures (triangles, ...).
      * 

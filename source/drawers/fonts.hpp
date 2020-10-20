@@ -1,7 +1,7 @@
 #ifndef DRAWERS_GL_FONTS_HPP
 #define DRAWERS_GL_FONTS_HPP
 
-#include "drawers/gl/drawable.hpp"
+#include "drawable.hpp"
 #include "vertex.hpp"
 #include "wrappers/shader.hpp"
 
@@ -10,7 +10,7 @@
 
 #include <memory>
 
-namespace Drawers::GL {
+namespace Drawers {
     class Fonts : public Drawable {
         public:
         Fonts(std::shared_ptr<Wrappers::Shader> shader, int width, int height, const char *text);

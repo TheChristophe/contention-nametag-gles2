@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-namespace Drawers::GL {
+namespace Drawers {
     Fonts::Fonts(std::shared_ptr<Wrappers::Shader> shader, int width, int height, const char *text)
         : _shader(shader)
         , _scaleX{ 2.f / width }
