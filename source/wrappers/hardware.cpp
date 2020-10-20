@@ -46,13 +46,6 @@ namespace Hardware {
             bcm2835_i2c_setSlaveAddress(0x3c); //i2c address
             //bcm2835_i2c_setClockDivider(BCM2835_I2C_CLOCK_DIVIDER_148);
             bcm2835_i2c_set_baudrate(100000); //100k baudrate
-
-            /*
-            uint8_t buf[1];
-    	    I2C_Write_Byte(0xAD);
-    	    buf[0] = bcm2835_i2c_read((char *)buf, 1);
-    	    printf("buf = %d",buf[0]);
-    	    */
         }
 #endif
         return true;

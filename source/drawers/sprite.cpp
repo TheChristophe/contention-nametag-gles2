@@ -8,11 +8,8 @@ static_assert(sizeof(GLfloat) == sizeof(float));
 static_assert(sizeof(GLuint) == sizeof(uint32_t));
 
 namespace Drawers {
-    Sprite::Sprite(std::shared_ptr<Wrappers::Shader> shader, const std::filesystem::path& file, bool transparent, glm::vec2 texCoord, glm::vec2 texSize)
+    Sprite::Sprite(std::shared_ptr<Wrappers::Shader> shader, const std::filesystem::path &file, bool transparent, glm::vec2 texCoord, glm::vec2 texSize)
         : _shader(std::move(shader))
-        , _size(1.f, 1.f)
-        , _pos(0.f, 0.f)
-        , _scale(1.f, 1.f)
         , _texture(new Texture(file, transparent))
     {
         //glGenVertexArrays(1, &_vao);
@@ -37,13 +34,15 @@ namespace Drawers {
         _scale = texSize / 29.f;
 
         // remember half pixel correction
-        glm::vec2 textureFrom;
-        textureFrom.x = static_cast<float>(texCoord.x + 0.5) / _texture->GetSize().x;
-        textureFrom.y = 1 - static_cast<float>(texCoord.y + 0.5) / _texture->GetSize().y;
+        glm::vec2 textureFrom{
+            static_cast<float>(texCoord.x + 0.5) / _texture->GetSize().x,
+            1 - static_cast<float>(texCoord.y + 0.5) / _texture->GetSize().y
+        };
 
-        glm::vec2 textureTo;
-        textureTo.x = static_cast<float>((texCoord + texSize).x - 0.5) / _texture->GetSize().x;
-        textureTo.y = 1 - static_cast<float>((texCoord + texSize).y - 0.5) / _texture->GetSize().y;
+        glm::vec2 textureTo{
+            static_cast<float>((texCoord + texSize).x - 0.5) / _texture->GetSize().x,
+            1 - static_cast<float>((texCoord + texSize).y - 0.5) / _texture->GetSize().y
+        };
 
         SpriteVertex vertices[6] = {
             { 0.f, 0.f, textureFrom.x, textureFrom.y },
@@ -69,17 +68,12 @@ namespace Drawers {
 
     Sprite::~Sprite()
     {
-        //glDeleteVertexArrays(1, &_vao);
         glDeleteBuffers(1, &_vbo);
     }
 
-    //uint32_t Sprite::GetVAO() const
-    //{
-    //    return _vao;
-    //}
     Texture *Sprite::GetTexture() const
     {
-        return _texture;
+        return _texture.get();
     }
 
     glm::vec2 Sprite::GetSize() const

@@ -13,8 +13,7 @@ std::string LoadFile(const char *filename)
     str.reserve(t.tellg());
     t.seekg(0, std::ios::beg);
 
-    str.assign((std::istreambuf_iterator<char>(t)),
-        std::istreambuf_iterator<char>());
+    str.assign((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
     return str;
 }
 
@@ -24,7 +23,6 @@ WebServer::WebServer(AnimationController &controller)
     , _css(LoadFile("res/static/main.css"))
     , _js(LoadFile("res/static/ui.js"))
 {
-    _port = 8080;
 }
 
 enum RequestType {
@@ -91,7 +89,7 @@ void WebServer::Run()
         })
         .post("/add", [this](auto *res, auto *req) {
             res->onData([res, this](std::string_view data, bool last) {
-                std::string buffer;
+                std::string buffer{};
                 if (last == false) {
                     res->writeStatus("400 Bad Request");
                     res->end("<!DOCTYPE html><html lang=\"en\"><body>error</body></html>");
@@ -113,7 +111,7 @@ void WebServer::Run()
         })
         .put("/delete", [this](auto *res, auto *req) {
             res->onData([res, this](std::string_view data, bool last) {
-                std::string buffer;
+                std::string buffer{};
                 if (last == false) {
                     res->writeStatus("400 Bad Request");
                     res->end("<!DOCTYPE html><html lang=\"en\"><body>error</body></html>");
@@ -144,6 +142,5 @@ void WebServer::Run()
 
 void WebServer::Halt()
 {
-    std::cout << "Closing " << this->_socket << std::endl;
     us_listen_socket_close(0, _socket);
 }

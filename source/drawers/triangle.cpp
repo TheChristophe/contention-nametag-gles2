@@ -17,7 +17,6 @@ namespace Drawers {
 
     Triangle::Triangle(std::shared_ptr<Wrappers::Shader> shader)
         : _shader(std::move(shader))
-        , _at(0, 0)
     {
         _shader->Use();
 

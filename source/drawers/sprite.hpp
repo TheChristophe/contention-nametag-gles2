@@ -12,7 +12,7 @@
 namespace Drawers {
     class Sprite : public Drawable {
         public:
-        Sprite(std::shared_ptr<Wrappers::Shader> shader, const std::filesystem::path& file, bool transparent = false, glm::vec2 texCoord = glm::vec2(0, 0), glm::vec2 texSize = glm::vec2(-1, -1));
+        Sprite(std::shared_ptr<Wrappers::Shader> shader, const std::filesystem::path &file, bool transparent = false, glm::vec2 texCoord = glm::vec2(0.f, 0.f), glm::vec2 texSize = glm::vec2(-1, -1));
         Sprite(const Sprite &) = delete;
         virtual ~Sprite();
 
@@ -28,24 +28,22 @@ namespace Drawers {
         private:
         std::shared_ptr<Wrappers::Shader> _shader;
 
-        glm::vec2 _size;
+        glm::vec2 _size{ 1.f, 1.f };
 
-        glm::vec2 _pos;
-        glm::vec2 _scale;
+        glm::vec2 _pos{ 0.f, 0.f };
+        glm::vec2 _scale{ 1.f, 1.f };
 
         // opengl vertices
-        SpriteVertex _vertices[6];
+        SpriteVertex _vertices[6]{};
 
-        // opengl vertex array object handle
-        //uint32_t _vao;
         // opengl vertex buffer object handle
-        uint32_t _vbo;
+        uint32_t _vbo{};
 
         // reference to used texture
-        class Texture *_texture;
+        std::unique_ptr<class Texture> _texture{};
 
-        uint32_t _posLoc;
-        uint32_t _texLoc;
+        uint32_t _posLoc{};
+        uint32_t _texLoc{};
     };
 } // namespace Drawers
 #endif

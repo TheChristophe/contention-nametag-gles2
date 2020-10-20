@@ -101,7 +101,7 @@ namespace Wrappers {
 
     bool Shader::Set(const char *name, const bool &value) const
     {
-        auto location = glGetUniformLocation(_id, name);
+        auto location{ glGetUniformLocation(_id, name) };
         if (!CheckLocation(location, name)) {
             return false;
         }
@@ -113,7 +113,7 @@ namespace Wrappers {
 
     bool Shader::Set(const char *name, const int &value) const
     {
-        auto location = glGetUniformLocation(_id, name);
+        auto location{ glGetUniformLocation(_id, name) };
         if (!CheckLocation(location, name)) {
             return false;
         }
@@ -125,7 +125,7 @@ namespace Wrappers {
 
     bool Shader::Set(const char *name, const float &value) const
     {
-        auto location = glGetUniformLocation(_id, name);
+        auto location{ glGetUniformLocation(_id, name) };
         if (!CheckLocation(location, name)) {
             return false;
         }
@@ -137,7 +137,7 @@ namespace Wrappers {
 
     bool Shader::Set(const char *name, const glm::vec2 &value) const
     {
-        auto location = glGetUniformLocation(_id, name);
+        auto location{ glGetUniformLocation(_id, name) };
         if (!CheckLocation(location, name)) {
             return false;
         }
@@ -149,7 +149,7 @@ namespace Wrappers {
 
     bool Shader::Set(const char *name, const glm::vec3 &value) const
     {
-        auto location = glGetUniformLocation(_id, name);
+        auto location{ glGetUniformLocation(_id, name) };
         if (!CheckLocation(location, name)) {
             return false;
         }
@@ -161,7 +161,7 @@ namespace Wrappers {
 
     bool Shader::Set(const char *name, const glm::vec4 &value) const
     {
-        auto location = glGetUniformLocation(_id, name);
+        auto location{ glGetUniformLocation(_id, name) };
         if (!CheckLocation(location, name)) {
             return false;
         }
@@ -173,7 +173,7 @@ namespace Wrappers {
 
     bool Shader::Set(const char *name, const glm::mat2 &mat) const
     {
-        auto location = glGetUniformLocation(_id, name);
+        auto location{ glGetUniformLocation(_id, name) };
         if (!CheckLocation(location, name)) {
             return false;
         }
@@ -185,7 +185,7 @@ namespace Wrappers {
 
     bool Shader::Set(const char *name, const glm::mat3 &mat) const
     {
-        auto location = glGetUniformLocation(_id, name);
+        auto location{ glGetUniformLocation(_id, name) };
         if (!CheckLocation(location, name)) {
             return false;
         }
@@ -197,7 +197,7 @@ namespace Wrappers {
 
     bool Shader::Set(const char *name, const glm::mat4 &mat) const
     {
-        auto location = glGetUniformLocation(_id, name);
+        auto location{ glGetUniformLocation(_id, name) };
         if (!CheckLocation(location, name)) {
             return false;
         }
@@ -215,7 +215,7 @@ namespace Wrappers {
     void Shader::CheckCompileErrors(const GLuint &shader, const char *type)
     {
         GLint success{};
-        GLchar infoLog[1024];
+        GLchar infoLog[1024]{};
         if (strcmp(type, "program") != 0) {
             glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
             if (!success) {
@@ -232,8 +232,4 @@ namespace Wrappers {
         }
     }
 
-    GLuint Shader::GetID() const
-    {
-        return _id;
-    }
 } // namespace Wrappers

@@ -23,14 +23,14 @@ namespace Drawers {
         void MoveTo(glm::vec2 to);
 
         private:
-        std::shared_ptr<Wrappers::Shader> _shader;
+        std::shared_ptr<Wrappers::Shader> _shader{};
 
-        GLuint _vbo;
+        GLuint _vbo{};
 
-        GLuint _posLoc;
-        GLuint _luminLoc;
+        GLuint _posLoc{};
+        GLuint _luminLoc{};
 
-        glm::vec2 _at;
+        glm::vec2 _at{ 0.f, 0.f };
     };
 } // namespace Drawers
 

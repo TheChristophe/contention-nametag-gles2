@@ -4,7 +4,7 @@
 
 namespace Wrappers {
     Driver::Driver(Mode mode, Driver::ScanDirection scanDir)
-        : _mode(mode)
+        : _mode{ mode }
     {
         if (Hardware::Init() == false) {
             throw std::runtime_error("failed to initialize hardware");
@@ -115,7 +115,7 @@ namespace Wrappers {
 
     void Driver::Display()
     {
-        uint8_t *buffer = _buffer;
+        uint8_t *buffer{ _buffer };
 
         if (_mode == Mode::SSD1322) {
             WriteRegistry(SSD1322::Registry::SetColumnAddress);
@@ -134,7 +134,7 @@ namespace Wrappers {
             Hardware::DelayMS(0);
         }
         else {
-            for (uint8_t page = 0; page < 8; page++, buffer += _state.width) {
+            for (uint8_t page{ 0 }; page < 8; page++, buffer += _state.width) {
                 // set page address
                 WriteRegistry(SH1106::Registry::Page + page);
 
@@ -183,8 +183,8 @@ namespace Wrappers {
     {
         // gl buffer is formatted in RGB, so multiply index by 3 to use R channels
         if (_mode == Mode::SSD1322) {
-            for (unsigned y = 0; y < 64; y++) {
-                for (unsigned x = 0; x < 256; x += 2) {
+            for (unsigned y{ 0 }; y < 64; y++) {
+                for (unsigned x{ 0 }; x < 256; x += 2) {
                     _buffer[(y * _state.width + x) / 2] = 0;
                     // left pixel is 4 high bits
                     _buffer[(y * _state.width + x) / 2] |= glBuffer[((63 - y) * _state.width + x) * 3] & 0xF0;
@@ -194,14 +194,14 @@ namespace Wrappers {
             }
         }
         else {
-            for (int page = 0; page < 8; page++) {
-                for (int x = 0; x < _state.width; x++) {
+            for (int page{ 0 }; page < 8; page++) {
+                for (int x{ 0 }; x < _state.width; x++) {
                     const auto bufferIndex{ x + page * _state.width };
                     _buffer[bufferIndex] = 0;
                 }
 
-                for (unsigned y = 0; y < 8; y++) {
-                    for (unsigned x = 0; x < _state.width; x++) {
+                for (unsigned y{ 0 }; y < 8; y++) {
+                    for (unsigned x{ 0 }; x < _state.width; x++) {
                         // set pixel on if at least 50% bright
                         const uint8_t bitValue{ glBuffer[(page * _state.width * 8 + y * _state.width + x) * 3] > 0x7F };
                         _buffer[page * _state.width + x] |= bitValue << y;
@@ -209,11 +209,6 @@ namespace Wrappers {
                 }
             }
         }
-    }
-
-    const Driver::State &Driver::GetState() const
-    {
-        return _state;
     }
 
     uint8_t Driver::GetKeyUp()
@@ -430,7 +425,7 @@ namespace Wrappers {
             Hardware::SPIWriteBytes(reinterpret_cast<char *>(buffer), length);
         }
         else {
-            for (uint32_t i = 0; i < length; buffer++, i++) {
+            for (uint32_t i{ 0 }; i < length; buffer++, i++) {
                 Hardware::I2CWriteByte(*buffer, Pins::IICRAM);
             }
         }

@@ -28,9 +28,9 @@ namespace Drawers {
 
         private:
         // opengl texture handle
-        GLuint _texture;
+        GLuint _texture{};
         // texture size in pixels
-        glm::vec2 _size;
+        glm::vec2 _size{};
     };
 } // namespace Drawers
 

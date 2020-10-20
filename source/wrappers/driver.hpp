@@ -408,12 +408,6 @@ namespace Wrappers {
             };
         };
 
-        struct State {
-            int width;
-            int height;
-            ScanDirection scanDir;
-        };
-
         enum class Mode {
             SH1106,
             SSD1305,
@@ -432,8 +426,6 @@ namespace Wrappers {
         void SetPanelPower(bool on = true);
 
         void CopyGLBuffer(const uint8_t *glBuffer);
-
-        [[nodiscard]] const State &GetState() const;
 
         uint8_t GetKeyUp();
         uint8_t GetKeyDown();
@@ -457,9 +449,13 @@ namespace Wrappers {
         // 1-4 bpp buffer
         static constexpr auto _bufferSize{ std::max({ static_cast<size_t>(SH1106::Size / 8), static_cast<size_t>(SSD1305::Size / 8), static_cast<size_t>(SSD1322::Size / 2) }) };
         uint8_t _buffer[_bufferSize];
-        State _state;
+        struct {
+            int width{};
+            int height{};
+            ScanDirection scanDir{ ScanDirection::Default };
+        } _state;
 
-        Mode _mode;
+        Mode _mode{ Mode::SSD1322 };
     };
 } // namespace Wrappers
 

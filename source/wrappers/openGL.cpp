@@ -12,7 +12,7 @@ namespace Wrappers {
     {
         glViewport(0, 0, _wrapper.GetWidth(), _wrapper.GetHeight());
 
-        GLint viewport[4];
+        GLint viewport[4]{};
         glGetIntegerv(GL_VIEWPORT, viewport);
 
         printf("GL Viewport size: %ix%i\n", viewport[2], viewport[3]);

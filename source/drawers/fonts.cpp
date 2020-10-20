@@ -7,9 +7,6 @@ namespace Drawers {
         : _shader(std::move(shader))
         , _scaleX{ 2.f / static_cast<float>(width) }
         , _scaleY{ 2.f / static_cast<float>(height) }
-        , _fontSize{ 24 }
-        , _text{}
-        , _wavy{ false }
     {
         if (FT_Init_FreeType(&_freetype)) {
             throw std::runtime_error("could not load freetype");
@@ -54,11 +51,11 @@ namespace Drawers {
     void Fonts::LoadText(const char *text)
     {
         // height above the baseline
-        int glyphHeight{};
+        int glyphHeight{ 0 };
         // height below the baseline
-        int glyphLowth{};
+        int glyphLowth{ 0 };
 
-        int charCount{};
+        int charCount{ 0 };
 
         for (const char *p = text; *p; p++) {
             if (FT_Load_Char(_face, *p, FT_LOAD_RENDER)) {
@@ -87,9 +84,9 @@ namespace Drawers {
         _text.vertices = std::make_unique<TextVertex[]>(_text.vertexCount);
 
         // current x coordinate in texture buffer
-        unsigned xOffset{};
+        unsigned xOffset{ 0 };
 
-        int i{};
+        int i{ 0 };
         for (const char *p = text; *p; p++, i++) {
             // reload char bitmap
             FT_Load_Char(_face, *p, FT_LOAD_RENDER);

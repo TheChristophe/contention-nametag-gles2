@@ -24,35 +24,35 @@ namespace Drawers {
         private:
         void LoadText(const char *text);
 
-        FT_Library _freetype;
-        FT_Face _face;
+        FT_Library _freetype{};
+        FT_Face _face{};
 
-        std::shared_ptr<Wrappers::Shader> _shader;
-        GLuint _posLoc;
-        GLuint _texLoc;
+        std::shared_ptr<Wrappers::Shader> _shader{};
+        GLuint _posLoc{};
+        GLuint _texLoc{};
 
-        const float _scaleX;
-        const float _scaleY;
+        const float _scaleX{ 1.f };
+        const float _scaleY{ 1.f };
 
-        int _fontSize;
+        int _fontSize{ 24 };
 
         struct {
-            std::unique_ptr<TextVertex[]> vertices;
-            int vertexCount;
-            int quadCount;
-            GLuint vbo;
+            std::unique_ptr<TextVertex[]> vertices{};
+            int vertexCount{ 0 };
+            int quadCount{ 0 };
+            GLuint vbo{};
 
-            GLuint texture;
-            std::unique_ptr<uint8_t[]> textureBuffer;
-            unsigned textureWidth;
-            unsigned textureHeight;
+            GLuint texture{};
+            std::unique_ptr<uint8_t[]> textureBuffer{};
+            unsigned textureWidth{ 0 };
+            unsigned textureHeight{};
 
-            int charCount;
+            int charCount{ 0 };
         } _text;
 
-        bool _wavy;
+        bool _wavy{ false };
 
-        glm::vec2 _at;
+        glm::vec2 _at{ 0.f, 0.f };
     };
 } // namespace Drawers
 

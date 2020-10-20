@@ -31,19 +31,19 @@ namespace Wrappers {
 #endif
 
         private:
-        int _width;
-        int _height;
+        int _width{};
+        int _height{};
 
 #ifdef DEV_MODE
-        SDL_Window *_window;
-        SDL_GLContext _context;
+        SDL_Window *_window{};
+        SDL_GLContext _context{};
 #else
-        EGLDisplay _display;
-        int _major;
-        int _minor;
+        EGLDisplay _display{};
+        int _major{};
+        int _minor{};
 
-        EGLContext _context;
-        EGLSurface _surface;
+        EGLContext _context{};
+        EGLSurface _surface{};
 
 #endif
     };

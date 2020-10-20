@@ -5,10 +5,10 @@
 
 namespace util::timing {
     // Get current time units
-    int64_t Get();
+    [[nodiscard]] int64_t Get();
 
     // Get time units per second
-    int64_t Frequency();
+    [[nodiscard]] int64_t Frequency();
 } // namespace util::timing
 
 #endif

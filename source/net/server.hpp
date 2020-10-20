@@ -20,16 +20,16 @@ class WebServer {
     void Halt();
 
     private:
-    us_listen_socket_t *_socket;
+    us_listen_socket_t *_socket{};
 
     AnimationController &_controller;
 
     // static
-    const std::string _page;
-    const std::string _css;
-    const std::string _js;
+    const std::string _page{};
+    const std::string _css{};
+    const std::string _js{};
 
-    short _port;
+    short _port{ 8080 };
 };
 
 #endif

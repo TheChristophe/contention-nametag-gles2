@@ -121,7 +121,7 @@ namespace Hardware {
     inline bool I2CWriteByte(uint8_t value, uint8_t command)
     {
 #ifndef DEV_MODE
-        char buf[2] = { command, value };
+        char buf[2]{ command, value };
 
         return bcm2835_i2c_write(buf, 2) == BCM2835_I2C_REASON_OK;
 #else

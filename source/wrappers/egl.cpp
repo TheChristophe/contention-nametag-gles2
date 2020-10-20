@@ -77,17 +77,14 @@ namespace Wrappers {
     }
 
     GLContextCreator::GLContextCreator(int width, int height)
-        : _width(width)
-        , _height(height)
+        : _width{ width }
+        , _height{ height }
     {
 #ifdef DEV_MODE
         _window = SDL_CreateWindow("gles2", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_OPENGL);
         if (_window == nullptr) {
             throw EGLError("SDL_CreateWindow");
         }
-        //if (SDL_GL_LoadLibrary("libGLESv2.so") < 0) {
-        //    throw EGLError("SDL_GL_LoadLibrary");
-        //}
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
         _context = SDL_GL_CreateContext(_window);
@@ -104,14 +101,14 @@ namespace Wrappers {
         }
 
         if (eglInitialize(_display, &_major, &_minor) == EGL_FALSE) {
-            auto error = eglGetErrorStr();
+            auto error{ eglGetErrorStr() };
             eglTerminate(_display);
             throw EGLError(std::string("Failed to get EGL version! ") + error);
         }
 
         printf("Initialized EGL version: %d.%d\n", _major, _minor);
 
-        static const EGLint configAttribs[] = {
+        static const EGLint configAttribs[]{
             EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,
             EGL_BLUE_SIZE, 0, EGL_GREEN_SIZE, 0,
             EGL_RED_SIZE, 8, EGL_DEPTH_SIZE, 8,
@@ -119,16 +116,16 @@ namespace Wrappers {
             EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
             EGL_NONE
         };
-        EGLint numConfigs;
-        EGLConfig config;
+        EGLint numConfigs{};
+        EGLConfig config{};
         if (!eglChooseConfig(_display, configAttribs, &config, 1, &numConfigs)) {
-            auto error = eglGetErrorStr();
+            auto error{ eglGetErrorStr() };
             eglTerminate(_display);
             throw EGLError(std::string("Failed to get EGL config! ") + error);
         }
 
         // Width and height of the desired framebuffer
-        static const EGLint bufferAttributes[] = {
+        static const EGLint bufferAttributes[]{
             EGL_WIDTH,
             _width,
             EGL_HEIGHT,
@@ -144,13 +141,13 @@ namespace Wrappers {
 
         eglBindAPI(EGL_OPENGL_API);
 
-        static const EGLint contextAttribs[] = {
+        static const EGLint contextAttribs[]{
             EGL_CONTEXT_CLIENT_VERSION, 2,
             EGL_NONE
         };
         _context = eglCreateContext(_display, config, EGL_NO_CONTEXT, contextAttribs);
         if (_context == EGL_NO_CONTEXT) {
-            auto error = eglGetErrorStr();
+            auto error{ eglGetErrorStr() };
             eglDestroySurface(_display, _surface);
             eglTerminate(_display);
             throw EGLError(std::string("Failed to create EGL context! ") + error);
