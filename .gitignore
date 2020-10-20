@@ -1,6 +1,13 @@
 .vs/
 .vscode/
+.idea/
 docs/
+CMakeFiles/
+cmake-build-debug/
+
+CMakeCache.txt
+Makefile
+cmake_install.cmake
 
 /*.cfg
 *.d
