@@ -15,7 +15,7 @@ namespace Drawers {
      */
     class Triangle : public Drawable {
         public:
-        Triangle(std::shared_ptr<Wrappers::Shader> shader);
+        explicit Triangle(std::shared_ptr<Wrappers::Shader> shader);
         Triangle(const Triangle &) = delete;
 
         void Draw(float time) final;
@@ -32,6 +32,6 @@ namespace Drawers {
 
         glm::vec2 _at;
     };
-} // namespace Drawers::GL
+} // namespace Drawers
 
 #endif

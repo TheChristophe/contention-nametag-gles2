@@ -15,7 +15,7 @@ namespace Drawers {
         public:
         Fonts(std::shared_ptr<Wrappers::Shader> shader, int width, int height, const char *text);
         Fonts(const Fonts &) = delete;
-        ~Fonts();
+        ~Fonts()             = default;
 
         void Draw(float time) final;
         void SetWavy(bool wavy);
@@ -44,8 +44,8 @@ namespace Drawers {
 
             GLuint texture;
             std::unique_ptr<uint8_t[]> textureBuffer;
-            int textureWidth;
-            int textureHeight;
+            unsigned textureWidth;
+            unsigned textureHeight;
 
             int charCount;
         } _text;
@@ -54,6 +54,6 @@ namespace Drawers {
 
         glm::vec2 _at;
     };
-} // namespace Drawers::GL
+} // namespace Drawers
 
 #endif

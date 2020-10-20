@@ -274,7 +274,7 @@ namespace SSD1305 {
         /**
          * Commands as per SSD1305 spec Rev 1.9
          */
-        enum Commnds : int {
+        enum Commands : int {
             // p. 40
             SelectColumnLow  = 0x00, // [0x0-0xF]
             SelectColumnHigh = 0x10, // [0x0-0xF]
@@ -420,21 +420,20 @@ namespace Wrappers {
             SSD1322
         };
 
-        Driver(Mode mode, ScanDirection scanDir = ScanDirection::Default);
+        explicit Driver(Mode mode, ScanDirection scanDir = ScanDirection::Default);
         ~Driver();
         void SetScanDirection(ScanDirection scanDir);
 
-        void SetCursor(int x, int y);
-        void SetColor(int x, int y, ColorT color);
+        void SetCursor(uint8_t x, uint8_t y);
+        void SetColor(uint8_t x, uint8_t y, ColorT color);
 
         void Clear(ColorT color = 0);
-        void ClearDirty(ColorT color = 0);
         void Display();
         void SetPanelPower(bool on = true);
 
-        void CopyGLBuffer(uint8_t *glBuffer);
+        void CopyGLBuffer(const uint8_t *glBuffer);
 
-        const State &GetState() const;
+        [[nodiscard]] const State &GetState() const;
 
         uint8_t GetKeyUp();
         uint8_t GetKeyDown();
@@ -445,8 +444,8 @@ namespace Wrappers {
         uint8_t GetKey2();
         uint8_t GetKey3();
 
-        int GetWidth() const;
-        int GetHeight() const;
+        [[nodiscard]] int GetWidth() const;
+        [[nodiscard]] int GetHeight() const;
 
         private:
         void Reset();
@@ -456,7 +455,7 @@ namespace Wrappers {
         void WriteData(uint8_t *buffer, uint32_t length);
 
         // 1-4 bpp buffer
-        static const auto _bufferSize{ std::max({ SH1106::Size / 8, SSD1305::Size / 8, SSD1322::Size / 2 }) };
+        static constexpr auto _bufferSize{ std::max({ static_cast<size_t>(SH1106::Size / 8), static_cast<size_t>(SSD1305::Size / 8), static_cast<size_t>(SSD1322::Size / 2) }) };
         uint8_t _buffer[_bufferSize];
         State _state;
 

@@ -4,10 +4,8 @@
 #include "vertex.hpp"
 
 #include <GLES2/gl2.h>
-#include <glm/gtc/matrix_transform.hpp>
 
-#include <cstdint>
-#include <stdexcept>
+#include <utility>
 
 namespace Drawers {
     // x, y, z
@@ -18,7 +16,7 @@ namespace Drawers {
     };
 
     Triangle::Triangle(std::shared_ptr<Wrappers::Shader> shader)
-        : _shader(shader)
+        : _shader(std::move(shader))
         , _at(0, 0)
     {
         _shader->Use();
@@ -65,4 +63,4 @@ namespace Drawers {
     {
         _at = to;
     }
-} // namespace Drawers::GL
+} // namespace Drawers

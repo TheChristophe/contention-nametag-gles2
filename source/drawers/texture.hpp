@@ -10,21 +10,21 @@
 namespace Drawers {
     class Texture {
         public:
-        Texture(std::filesystem::path file, const bool &rgba = false, const bool nearestNeighbour = false);
+        explicit Texture(const std::filesystem::path &file, const bool &rgba = false, bool nearestNeighbour = false);
         Texture(const Texture &) = delete;
         ~Texture();
 
         /**
-     * @brief Set the current opengl texture to this
-     */
+         * @brief Set the current opengl texture to this
+         */
         void Use();
 
         /**
-     * @brief Get texture size in pixels
-     * 
-     * @return Vec2i texture size
-     */
-        glm::vec2 GetSize() const;
+         * @brief Get texture size in pixels
+         *
+         * @return Vec2i texture size
+         */
+        [[nodiscard]] glm::vec2 GetSize() const;
 
         private:
         // opengl texture handle
@@ -32,6 +32,6 @@ namespace Drawers {
         // texture size in pixels
         glm::vec2 _size;
     };
-} // namespace Drawers::GL
+} // namespace Drawers
 
 #endif

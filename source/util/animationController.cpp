@@ -1,6 +1,5 @@
 #include "animationController.hpp"
 
-#include "drawers/drawable.hpp"
 #include "drawers/fonts.hpp"
 #include "drawers/sprite.hpp"
 #include "drawers/triangle.hpp"
@@ -23,11 +22,20 @@ std::future<AnimationController::identifier> AnimationController::ReqAddTriangle
     return r.promise.get_future();
 }
 
-std::future<AnimationController::identifier> AnimationController::ReqAddText(std::string text, bool wavy, float x, float y)
+std::future<AnimationController::identifier> AnimationController::ReqAddText(const std::string& text, bool wavy, float x, float y)
 {
     auto &r  = _requests.emplace_back();
     r.lambda = [this, text, wavy, x, y, &r]() {
         r.promise.set_value(this->AddText(text.c_str(), wavy, x, y));
+    };
+    return r.promise.get_future();
+}
+
+std::future<AnimationController::identifier> AnimationController::ReqAddSprite(const std::filesystem::path& file, bool transparent, float x, float y)
+{
+    auto &r  = _requests.emplace_back();
+    r.lambda = [this, file, transparent, x, y, &r]() {
+        r.promise.set_value(this->AddSprite(file, transparent, x, y));
     };
     return r.promise.get_future();
 }
@@ -51,7 +59,7 @@ AnimationController::identifier AnimationController::AddText(const char *text, b
     return id;
 }
 
-AnimationController::identifier AnimationController::AddSprite(std::filesystem::path file, bool transparent, float x, float y)
+AnimationController::identifier AnimationController::AddSprite(const std::filesystem::path& file, bool transparent, float x, float y)
 {
     auto p  = new Drawers::Sprite(_resources.LoadShader("sprite"), file, transparent);
     auto id = _nextID++;

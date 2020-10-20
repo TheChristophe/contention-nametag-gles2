@@ -13,8 +13,8 @@ namespace Wrappers {
         void PreDraw();
         void PostDraw(uint8_t *outBuffer);
 
-        int GetWidth() const;
-        int GetHeight() const;
+        [[nodiscard]] int GetWidth() const;
+        [[nodiscard]] int GetHeight() const;
 
         private:
         GLContextCreator _wrapper;

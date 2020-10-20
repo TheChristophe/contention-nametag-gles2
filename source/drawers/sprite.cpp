@@ -1,17 +1,15 @@
 #include "sprite.hpp"
 
+#include <utility>
+
 #include "texture.hpp" // Texture
-
-#include <GLES2/gl2.h>
-
-#include <cstring> // memcpy
 
 static_assert(sizeof(GLfloat) == sizeof(float));
 static_assert(sizeof(GLuint) == sizeof(uint32_t));
 
 namespace Drawers {
-    Sprite::Sprite(std::shared_ptr<Wrappers::Shader> shader, std::filesystem::path file, bool transparent, glm::vec2 texCoord, glm::vec2 texSize)
-        : _shader(shader)
+    Sprite::Sprite(std::shared_ptr<Wrappers::Shader> shader, const std::filesystem::path& file, bool transparent, glm::vec2 texCoord, glm::vec2 texSize)
+        : _shader(std::move(shader))
         , _size(1.f, 1.f)
         , _pos(0.f, 0.f)
         , _scale(1.f, 1.f)
@@ -122,4 +120,4 @@ namespace Drawers {
     {
         _pos = to;
     }
-} // namespace Drawers::GL
+} // namespace Drawers

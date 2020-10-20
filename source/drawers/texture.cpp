@@ -2,13 +2,11 @@
 
 #include <stb_image.h> // to load image
 
-#include <cstdio>
-
 namespace Drawers {
 
     const int mipmapLevels = 8;
 
-    Texture::Texture(std::filesystem::path file, const bool &rgba, const bool nearestNeighbour)
+    Texture::Texture(const std::filesystem::path& file, const bool &rgba, const bool nearestNeighbour)
     {
         *const_cast<bool *>(&rgba) = true;
         glGenTextures(1, &_texture);
@@ -64,4 +62,4 @@ namespace Drawers {
     {
         return _size;
     }
-} // namespace Drawers::GL
+} // namespace Drawers

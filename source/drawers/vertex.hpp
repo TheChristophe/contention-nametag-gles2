@@ -23,6 +23,6 @@ namespace Drawers {
         GLfloat texX;
         GLfloat texY;
     };
-} // namespace Drawers::GL
+} // namespace Drawers
 
 #endif

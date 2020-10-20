@@ -1,16 +1,10 @@
 
-#include "drawers/buffer/drawer.hpp"
 #include "net/server.hpp"
-#include "util/animationController.hpp"
-#include "util/resourceHandler.hpp"
 #include "util/time.hpp"
+#include "wrappers/driver.hpp"
 #include "wrappers/openGL.hpp"
 
-#include <chrono>
 #include <csignal>
-#include <cstdio>
-#include <ctime>
-#include <thread>
 
 static bool run{ true };
 
@@ -30,11 +24,9 @@ int main(int argc, char **argv)
     //Driver driver(Driver::Mode::SH1106_128x64);
     Wrappers::Driver driver(Wrappers::Driver::Mode::SSD1322);
 
-    uint8_t *glBuffer = new uint8_t[256 * 64 * 3];
+    auto *glBuffer = new uint8_t[256 * 64 * 3];
 
     int frameCount{};
-
-    Drawers::Buffer::Drawer drawer(driver);
 
     Wrappers::OpenGL glWrapper(driver.GetWidth(), driver.GetHeight());
     ResourceHandler resHandler(driver.GetWidth(), driver.GetHeight());
@@ -62,7 +54,7 @@ int main(int argc, char **argv)
     });
 
     while (run) {
-        now = static_cast<double>(util::timing::Get() - startTime) / static_cast<double>(util::timing::Frequency());
+        now = static_cast<float>(static_cast<double>(util::timing::Get() - startTime) / static_cast<double>(util::timing::Frequency()));
 
         animation.ProcessRequests();
 

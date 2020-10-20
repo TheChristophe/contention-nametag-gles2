@@ -17,11 +17,11 @@ class AnimationController {
     using identifier = int;
     AnimationController(int width, int height);
     std::future<identifier> ReqAddTriangle(float x = 0.f, float y = 0.f);
-    std::future<identifier> ReqAddText(std::string text, bool wavy = false, float x = 0.f, float y = 0.f);
-    std::future<identifier> ReqAddSprite(std::filesystem::path file, bool transparent = false, /*bool wavy = false, */ float x = 0.f, float y = 0.f);
+    std::future<identifier> ReqAddText(const std::string& text, bool wavy = false, float x = 0.f, float y = 0.f);
+    std::future<identifier> ReqAddSprite(const std::filesystem::path& file, bool transparent = false, /*bool wavy = false, */ float x = 0.f, float y = 0.f);
     identifier AddTriangle(float x = 0.f, float y = 0.f);
     identifier AddText(const char *text, bool wavy = false, float x = 0.f, float y = 0.f);
-    identifier AddSprite(std::filesystem::path file, bool transparent = false, /*bool wavy = false, */ float x = 0.f, float y = 0.f);
+    identifier AddSprite(const std::filesystem::path& file, bool transparent = false, /*bool wavy = false, */ float x = 0.f, float y = 0.f);
     Drawers::Drawable *GetDrawable(identifier id);
     void Remove(identifier id);
 

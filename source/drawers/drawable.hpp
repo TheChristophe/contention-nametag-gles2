@@ -6,6 +6,6 @@ namespace Drawers {
         public:
         virtual void Draw(float time) = 0;
     };
-} // namespace Drawers::GL
+} // namespace Drawers
 
 #endif

@@ -1,7 +1,6 @@
 #include "driver.hpp"
 
 #include <cstring>
-#include <stdexcept>
 
 namespace Wrappers {
     Driver::Driver(Mode mode, Driver::ScanDirection scanDir)
@@ -80,7 +79,7 @@ namespace Wrappers {
         }
     }
 
-    void Driver::SetCursor(int x, int y)
+    void Driver::SetCursor(uint8_t x, uint8_t y)
     {
         if ((x > _state.width) || (y > _state.height)) {
             return;
@@ -98,7 +97,7 @@ namespace Wrappers {
          */
     }
 
-    void Driver::SetColor(int x, int y, ColorT color)
+    void Driver::SetColor(uint8_t x, uint8_t y, ColorT color)
     {
         // TODO: handle color == black
 
@@ -106,7 +105,7 @@ namespace Wrappers {
             return;
         }
 
-        _buffer[x + (y / 8) * _state.width] |= (color != 0) << (y % 8);
+        _buffer[x + (y / 8) * _state.width] |= static_cast<uint8_t>(color != 0) << (y % 8);
     }
 
     void Driver::Clear(ColorT color)
@@ -121,8 +120,8 @@ namespace Wrappers {
         if (_mode == Mode::SSD1322) {
             WriteRegistry(SSD1322::Registry::SetColumnAddress);
             const auto ColOffset{ 0x1C };
-            WriteDataByte(ColOffset + 0x00);
-            WriteDataByte(ColOffset + 0x3F);
+            WriteDataByte(static_cast<uint8_t>(ColOffset + 0x00));
+            WriteDataByte(static_cast<uint8_t>(ColOffset + 0x3F));
 
             WriteRegistry(SSD1322::Registry::SetRowAddress);
             WriteDataByte(0x00);
@@ -180,12 +179,12 @@ namespace Wrappers {
         }
     }
 
-    void Driver::CopyGLBuffer(uint8_t *glBuffer)
+    void Driver::CopyGLBuffer(const uint8_t *glBuffer)
     {
         // gl buffer is formatted in RGB, so multiply index by 3 to use R channels
         if (_mode == Mode::SSD1322) {
-            for (int y = 0; y < 64; y++) {
-                for (int x = 0; x < 256; x += 2) {
+            for (unsigned y = 0; y < 64; y++) {
+                for (unsigned x = 0; x < 256; x += 2) {
                     _buffer[(y * _state.width + x) / 2] = 0;
                     // left pixel is 4 high bits
                     _buffer[(y * _state.width + x) / 2] |= glBuffer[((63 - y) * _state.width + x) * 3] & 0xF0;
@@ -201,8 +200,8 @@ namespace Wrappers {
                     _buffer[bufferIndex] = 0;
                 }
 
-                for (int y = 0; y < 8; y++) {
-                    for (int x = 0; x < _state.width; x++) {
+                for (unsigned y = 0; y < 8; y++) {
+                    for (unsigned x = 0; x < _state.width; x++) {
                         // set pixel on if at least 50% bright
                         const uint8_t bitValue{ glBuffer[(page * _state.width * 8 + y * _state.width + x) * 3] > 0x7F };
                         _buffer[page * _state.width + x] |= bitValue << y;
@@ -431,7 +430,7 @@ namespace Wrappers {
             Hardware::SPIWriteBytes(reinterpret_cast<char *>(buffer), length);
         }
         else {
-            for (uint32_t i = 0; i < length; i++, buffer++) {
+            for (uint32_t i = 0; i < length; buffer++, i++) {
                 Hardware::I2CWriteByte(*buffer, Pins::IICRAM);
             }
         }

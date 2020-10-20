@@ -9,8 +9,13 @@
 
 namespace Hardware {
     enum {
+#ifdef USE_IIC
+        UseSPI = false,
+        UseIIC = true,
+#else
         UseSPI = true,
         UseIIC = false,
+#endif
 
         CS  = 8,
         RST = 25,

@@ -3,14 +3,12 @@
 
 #include <cstdint>
 
-namespace util {
-    namespace timing {
-        // Get current time units
-        int64_t Get();
+namespace util::timing {
+    // Get current time units
+    int64_t Get();
 
-        // Get time units per second
-        int64_t Frequency();
-    } // namespace timing
-} // namespace util
+    // Get time units per second
+    int64_t Frequency();
+} // namespace util::timing
 
 #endif

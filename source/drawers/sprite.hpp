@@ -12,16 +12,16 @@
 namespace Drawers {
     class Sprite : public Drawable {
         public:
-        Sprite(std::shared_ptr<Wrappers::Shader> shader, std::filesystem::path file, bool transparent = false, glm::vec2 texCoord = glm::vec2(0, 0), glm::vec2 texSize = glm::vec2(-1, -1));
+        Sprite(std::shared_ptr<Wrappers::Shader> shader, const std::filesystem::path& file, bool transparent = false, glm::vec2 texCoord = glm::vec2(0, 0), glm::vec2 texSize = glm::vec2(-1, -1));
         Sprite(const Sprite &) = delete;
         virtual ~Sprite();
 
         //uint32_t GetVAO() const;
-        class Texture *GetTexture() const;
-        glm::vec2 GetSize() const;
-        glm::vec2 GetBaseSize() const;
+        [[nodiscard]] class Texture *GetTexture() const;
+        [[nodiscard]] glm::vec2 GetSize() const;
+        [[nodiscard]] glm::vec2 GetBaseSize() const;
 
-        virtual void Draw(float time) override;
+        void Draw(float time) override;
 
         void MoveTo(glm::vec2 to);
 
@@ -47,5 +47,5 @@ namespace Drawers {
         uint32_t _posLoc;
         uint32_t _texLoc;
     };
-} // namespace Drawers::GL
+} // namespace Drawers
 #endif

@@ -1,13 +1,9 @@
 #include "resourceHandler.hpp"
 
-#include <GLES2/gl2.h>
 #include <cpptoml.h>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include <cstdio>
 #include <iostream>
-#include <stdexcept>
-#include <type_traits>
 
 struct ResourceHandlerConfig {
     std::shared_ptr<cpptoml::table> config;
@@ -43,9 +39,8 @@ ResourceHandler::ResourceHandler(int screenWidth, int screenHeight)
     glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, 4, 4, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, fourByFourBayer);
 }
 
-ResourceHandler::~ResourceHandler()
-{
-}
+// required defining here for ResourceHandlerConfig unique_ptr
+ResourceHandler::~ResourceHandler() = default;
 
 std::shared_ptr<Wrappers::Shader> ResourceHandler::LoadShader(const std::string &identifier)
 {
@@ -71,7 +66,7 @@ std::shared_ptr<Wrappers::Shader> ResourceHandler::LoadShader(const std::string 
 
     // setup shader
     auto viewMatrix       = glm::lookAt(glm::vec3(0, 0, -1), glm::vec3(0, 0, 1), glm::vec3(0.0f, 1.0f, 0.0f));
-    auto projectionMatrix = glm::perspective(45.f, static_cast<float>(_width) / _height, 0.1f, 100.0f);
+    auto projectionMatrix = glm::perspective(45.f, static_cast<float>(_width) / static_cast<float>(_height), 0.1f, 100.0f);
     pointer->Set("projection", projectionMatrix * viewMatrix);
     pointer->Set("time", 0.f);
     pointer->Set("bayerTex", 0);

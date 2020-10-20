@@ -35,13 +35,11 @@ namespace Wrappers {
 
         GLint GetAttribLocation(const char *name);
 
-        GLuint GetID() const;
+        [[nodiscard]] GLuint GetID() const;
 
         private:
         // utility function for checking shader compilation/linking errors
-        void CheckCompileErrors(const GLuint &shader, const char *type);
-
-        bool UniformCheck(GLint location, const char *name);
+        static void CheckCompileErrors(const GLuint &shader, const char *type);
 
         // opengl handle to shader object
         GLuint _id;

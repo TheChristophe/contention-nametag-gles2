@@ -15,7 +15,7 @@
 namespace Wrappers {
     class EGLError : public std::runtime_error {
         public:
-        EGLError(std::string str);
+        explicit EGLError(std::string str);
     };
 
     class GLContextCreator {
@@ -23,8 +23,8 @@ namespace Wrappers {
         GLContextCreator(int width, int height);
         ~GLContextCreator();
 
-        int GetWidth() const;
-        int GetHeight() const;
+        [[nodiscard]] int GetWidth() const;
+        [[nodiscard]] int GetHeight() const;
 
 #ifdef DEV_MODE
         SDL_Window *GetWindow();

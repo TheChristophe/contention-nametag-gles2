@@ -3,7 +3,6 @@
 #include "util/io.hpp" // util::StringFromFile
 
 #include <iostream>
-#include <stdexcept>
 
 #ifdef DEBUGGING
 static constexpr bool debugging{ true };
@@ -217,7 +216,7 @@ namespace Wrappers {
     {
         GLint success{};
         GLchar infoLog[1024];
-        if (strcmp(type, "program")) {
+        if (strcmp(type, "program") != 0) {
             glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
             if (!success) {
                 glGetShaderInfoLog(shader, 1024, nullptr, infoLog);

@@ -1,14 +1,12 @@
 #include "fonts.hpp"
 
-#include <glm/gtc/matrix_transform.hpp>
-
-#include <stdexcept>
+#include <utility>
 
 namespace Drawers {
     Fonts::Fonts(std::shared_ptr<Wrappers::Shader> shader, int width, int height, const char *text)
-        : _shader(shader)
-        , _scaleX{ 2.f / width }
-        , _scaleY{ 2.f / height }
+        : _shader(std::move(shader))
+        , _scaleX{ 2.f / static_cast<float>(width) }
+        , _scaleY{ 2.f / static_cast<float>(height) }
         , _fontSize{ 24 }
         , _text{}
         , _wavy{ false }
@@ -53,10 +51,6 @@ namespace Drawers {
         LoadText(text);
     }
 
-    Fonts::~Fonts()
-    {
-    }
-
     void Fonts::LoadText(const char *text)
     {
         // height above the baseline
@@ -93,7 +87,7 @@ namespace Drawers {
         _text.vertices = std::make_unique<TextVertex[]>(_text.vertexCount);
 
         // current x coordinate in texture buffer
-        int xOffset{};
+        unsigned xOffset{};
 
         int i{};
         for (const char *p = text; *p; p++, i++) {
@@ -105,7 +99,7 @@ namespace Drawers {
             // vertical offset for characters that are not full height
             const int yOffset = glyphHeight - glyph->bitmap_top;
 
-            GLfloat xPos = static_cast<float>(xOffset) / _text.textureWidth;
+            GLfloat xPos = static_cast<float>(xOffset) / static_cast<float>(_text.textureWidth);
 
             // left vertices
             _text.vertices[i * 4]     = TextVertex{ xPos, 1, xPos, 0 };
@@ -115,9 +109,9 @@ namespace Drawers {
             for (unsigned y = 0; y < glyph->bitmap.rows; y++) {
                 for (unsigned x = 0; x < glyph->bitmap.width; x++) {
                     // destination buffer offset
-                    const int xCoord      = xOffset + x;
-                    const int yCoord      = yOffset + y;
-                    const int textureAddr = yCoord * _text.textureWidth + xCoord;
+                    const unsigned xCoord      = xOffset + x;
+                    const unsigned yCoord      = yOffset + y;
+                    const unsigned textureAddr = yCoord * _text.textureWidth + xCoord;
 
                     // origin buffer offset
                     const int letterPixValue = glyph->bitmap.buffer[y * glyph->bitmap.width + x];
@@ -129,7 +123,7 @@ namespace Drawers {
 
             xOffset += glyph->bitmap.width;
 
-            xPos = static_cast<float>(xOffset) / _text.textureWidth;
+            xPos = static_cast<float>(xOffset) / static_cast<float>(_text.textureWidth);
             // right vertices
             _text.vertices[i * 4 + 2] = TextVertex{ xPos, 1, xPos, 0 };
             _text.vertices[i * 4 + 3] = TextVertex{ xPos, 0, xPos, 1 };
@@ -176,4 +170,4 @@ namespace Drawers {
     {
         _at = to;
     }
-} // namespace Drawers::GL
+} // namespace Drawers

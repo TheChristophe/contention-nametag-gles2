@@ -1,14 +1,10 @@
 
 #include "openGL.hpp"
-#include "egl.hpp"
 
 #include <GLES2/gl2.h>
 #ifdef DEV_MODE
 #include <SDL2/SDL_video.h>
 #endif
-
-#include <cstdio>
-#include <stdexcept>
 
 namespace Wrappers {
     OpenGL::OpenGL(int width, int height)

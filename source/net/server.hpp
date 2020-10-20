@@ -1,17 +1,18 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
+#include "util/animationController.hpp"
+
 #include <App.h>
 #include <libusockets.h>
-
 #include <nlohmann/json.hpp>
 
 #include <string>
 
 class WebServer {
     public:
-    WebServer(class AnimationController &controller);
-    ~WebServer();
+    explicit WebServer(class AnimationController &controller);
+    ~WebServer() = default;
 
     nlohmann::json Handle(int type, const nlohmann::json &metadata);
 

@@ -2,8 +2,7 @@ FONTS = ./fonts
 SOURCE = ./source
 
 OBJ_CPP = $(wildcard ${SOURCE}/*.cpp) \
-		  $(wildcard ${SOURCE}/drawers/buffer/*.cpp) \
-		  $(wildcard ${SOURCE}/drawers/gl/*.cpp) \
+		  $(wildcard ${SOURCE}/drawers/*.cpp) \
 		  $(wildcard ${SOURCE}/net/*.cpp) \
           $(wildcard ${SOURCE}/wrappers/*.cpp) \
 		  $(wildcard ${SOURCE}/util/*.cpp)

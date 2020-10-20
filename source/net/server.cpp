@@ -1,11 +1,8 @@
 #include "server.hpp"
 
-#include "App.h"
-
 #include "util/animationController.hpp"
 
 #include <fstream>
-#include <streambuf>
 
 std::string LoadFile(const char *filename)
 {
@@ -28,10 +25,6 @@ WebServer::WebServer(AnimationController &controller)
     , _js(LoadFile("res/static/ui.js"))
 {
     _port = 8080;
-}
-
-WebServer::~WebServer()
-{
 }
 
 enum RequestType {
@@ -61,7 +54,7 @@ nlohmann::json WebServer::Handle(int type, const nlohmann::json &metadata)
             auto y{ std::stof(data["y"].get<std::string>()) };
             auto text{ data["text"].get<std::string>() };
             bool wavy{ data.contains("wavy") };
-            auto id{ _controller.ReqAddText(text.c_str(), wavy, x, y) };
+            auto id{ _controller.ReqAddText(text, wavy, x, y) };
 
             return json{
                 { "type", "text" },
