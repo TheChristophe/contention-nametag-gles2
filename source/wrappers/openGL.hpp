@@ -10,7 +10,15 @@ namespace Wrappers {
         public:
         OpenGL(int width, int height);
 
+        /**
+         * pre-opengl-drawing callback
+         */
         void PreDraw();
+
+        /**
+         * post-opengl drawing callback
+         * @param outBuffer pointer to buffer of at least 256*64*3 bytes for output image
+         */
         void PostDraw(uint8_t *outBuffer);
 
         [[nodiscard]] int GetWidth() const;

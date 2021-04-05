@@ -6,7 +6,7 @@ namespace Wrappers {
     Driver::Driver(Mode mode, Driver::ScanDirection scanDir)
         : _mode{ mode }
     {
-        if (Hardware::Init() == false) {
+        if (not Hardware::Init()) {
             throw std::runtime_error("failed to initialize hardware");
         }
 

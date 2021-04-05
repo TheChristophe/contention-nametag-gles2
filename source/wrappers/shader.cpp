@@ -14,7 +14,7 @@ namespace Wrappers {
     Shader::Shader(std::string_view vertexPath, std::string_view fragmentPath)
     {
         auto vertexOpt{ util::StringFromFile(vertexPath) };
-        if (vertexOpt.has_value() == false) {
+        if (not vertexOpt.has_value()) {
             throw ShaderError(std::string("failed to load vertex shader ") + std::string(vertexPath));
         }
         auto vertexShader{ vertexOpt.value() };
@@ -28,7 +28,7 @@ namespace Wrappers {
 
         // compile fragment shader
         auto fragmentOpt{ util::StringFromFile(fragmentPath) };
-        if (fragmentOpt.has_value() == false) {
+        if (not fragmentOpt.has_value()) {
             throw ShaderError(std::string("failed to load fragment shader ") + std::string(fragmentPath));
         }
         auto fragmentShader{ fragmentOpt.value() };

@@ -10,7 +10,7 @@ static bool run{ true };
 
 void signalHandler(int dummy)
 {
-    if (run == false) {
+    if (not run) {
         std::exit(-1);
     }
     run = false;
@@ -60,16 +60,21 @@ int main(int argc, char **argv)
 
         sectionTimes[0] = std::chrono::steady_clock::now();
 
+        // section 1: openGL operations
         glWrapper.PreDraw();
         animation.Draw(now);
 
         sectionTimes[1] = std::chrono::steady_clock::now();
 
+        // section 2: output buffer conversion and transfer
+        // expected to be constant
         glWrapper.PostDraw(glBuffer);
         driver.CopyGLBuffer(glBuffer);
 
         sectionTimes[2] = std::chrono::steady_clock::now();
 
+        // section 3: clear buffer, wipe screen
+        // expected to be constant
         driver.Display();
         driver.Clear();
 

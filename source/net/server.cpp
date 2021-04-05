@@ -90,7 +90,7 @@ void WebServer::Run()
         .post("/add", [this](auto *res, auto *req) {
             res->onData([res, this](std::string_view data, bool last) {
                 std::string buffer{};
-                if (last == false) {
+                if (not last) {
                     res->writeStatus("400 Bad Request");
                     res->end("<!DOCTYPE html><html lang=\"en\"><body>error</body></html>");
                 }
@@ -112,7 +112,7 @@ void WebServer::Run()
         .put("/delete", [this](auto *res, auto *req) {
             res->onData([res, this](std::string_view data, bool last) {
                 std::string buffer{};
-                if (last == false) {
+                if (not last) {
                     res->writeStatus("400 Bad Request");
                     res->end("<!DOCTYPE html><html lang=\"en\"><body>error</body></html>");
                 }
