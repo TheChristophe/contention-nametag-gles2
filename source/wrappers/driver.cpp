@@ -111,7 +111,7 @@ namespace Wrappers {
     {
         // TODO: handle color == black
 
-        if (x < 0 || x >= _state.width || y < 0 || y >= _state.height) {
+        if (x >= _state.width || y >= _state.height) {
             return;
         }
 
@@ -210,8 +210,8 @@ namespace Wrappers {
                     _buffer[bufferIndex] = 0;
                 }
 
-                for (unsigned y{ 0 }; y < 8; y++) {
-                    for (unsigned x{ 0 }; x < _state.width; x++) {
+                for (int y{ 0 }; y < 8; y++) {
+                    for (int x{ 0 }; x < _state.width; x++) {
                         // set pixel on if at least 50% bright
                         const uint8_t bitValue{ glBuffer[(page * _state.width * 8 + y * _state.width + x) * 3] > 0x7F };
                         _buffer[page * _state.width + x] |= bitValue << y;
