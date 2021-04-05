@@ -25,7 +25,7 @@ int main(int argc, char **argv)
     //Driver driver(Driver::Mode::SH1106_128x64);
     Wrappers::Driver driver(Wrappers::Driver::Mode::SSD1322);
 
-    auto *glBuffer = new uint8_t[256 * 64 * 3];
+    uint8_t glBuffer[256 * 64 * 3];
 
     int frameCount{};
 
@@ -95,8 +95,6 @@ int main(int argc, char **argv)
 
     server.Halt();
     serverThread.join();
-
-    delete[] glBuffer;
 
     printf("Avarage timing:\n");
     printf("Total time:           %07.3lfms\n", static_cast<double>(totalFrameTimes) / frameCount);
