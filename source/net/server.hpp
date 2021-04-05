@@ -24,11 +24,6 @@ class WebServer {
 
     AnimationController &_controller;
 
-    // static
-    const std::string _page{};
-    const std::string _css{};
-    const std::string _js{};
-
     short _port{ 8080 };
 };
 

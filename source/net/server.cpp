@@ -19,9 +19,6 @@ std::string LoadFile(const char *filename)
 
 WebServer::WebServer(AnimationController &controller)
     : _controller(controller)
-    , _page(LoadFile("res/static/index.html"))
-    , _css(LoadFile("res/static/main.css"))
-    , _js(LoadFile("res/static/ui.js"))
 {
 }
 
@@ -76,16 +73,13 @@ void WebServer::Run()
 {
     uWS::App()
         .get("/", [this](auto *res, auto *req) {
-            res->end(_page.c_str());
-        })
-        .get("/index.html", [this](auto *res, auto *req) {
-            res->end(_page.c_str());
+            res->end(LoadFile("res/static/index.html").c_str());
         })
         .get("/css", [this](auto *res, auto *req) {
-            res->end(_css.c_str());
+            res->end(LoadFile("res/static/main.css").c_str());
         })
         .get("/js", [this](auto *res, auto *req) {
-            res->end(_js.c_str());
+            res->end(LoadFile("res/static/ui.js").c_str());
         })
         .post("/add", [this](auto *res, auto *req) {
             res->onData([res, this](std::string_view data, bool last) {
