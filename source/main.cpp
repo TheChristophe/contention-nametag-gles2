@@ -20,6 +20,7 @@ void signalHandler(int dummy)
 int main(int argc, char **argv)
 {
     signal(SIGINT, signalHandler);
+    signal(SIGTERM, signalHandler);
 
     //Driver driver(Driver::Mode::SH1106_128x64);
     Wrappers::Driver driver(Wrappers::Driver::Mode::SSD1322);
