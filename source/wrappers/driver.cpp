@@ -35,8 +35,18 @@ namespace Wrappers {
 
     Driver::~Driver()
     {
-        static_assert(static_cast<int>(SH1106::Registry::PanelOff) == static_cast<int>(SSD1322::Registry::PanelOff));
-        WriteRegistry(SH1106::Registry::PanelOff);
+        switch (_mode) {
+            case Mode::SH1106:
+                WriteRegistry(SH1106::Registry::PanelOff);
+                break;
+            case Mode::SSD1305:
+                WriteRegistry(SSD1305::Registry::PanelOff);
+                break;
+            case Mode::SSD1322:
+                WriteRegistry(SSD1322::Registry::PanelOff);
+                break;
+        }
+
         Hardware::Exit();
     }
 
