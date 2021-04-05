@@ -21,8 +21,8 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3 -march=native -mtune=arm1176jzf-s -mfpu=vfp -mf
 
 set(SOURCE_FILES
         source/drawers/drawable.hpp
-        source/drawers/fonts.cpp
-        source/drawers/fonts.hpp
+        source/drawers/text.cpp
+        source/drawers/text.hpp
         source/drawers/sprite.cpp
         source/drawers/sprite.hpp
         source/drawers/stb_image.cpp

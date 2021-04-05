@@ -1,7 +1,7 @@
 #include "animationController.hpp"
 
-#include "drawers/fonts.hpp"
 #include "drawers/sprite.hpp"
+#include "drawers/text.hpp"
 #include "drawers/triangle.hpp"
 
 #include <iostream>
@@ -51,7 +51,7 @@ AnimationController::identifier AnimationController::AddTriangle(float x, float 
 
 AnimationController::identifier AnimationController::AddText(const char *text, bool wavy, float x, float y)
 {
-    auto p{ new Drawers::Fonts(_resources.LoadShader("text"), _width, _height, text) };
+    auto p{ new Drawers::TextString(_resources.LoadShader("text"), _width, _height, text) };
     auto id{ _nextID++ };
     p->MoveTo(glm::vec2(x, y));
     p->SetWavy(wavy);

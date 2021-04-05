@@ -11,11 +11,15 @@
 #include <memory>
 
 namespace Drawers {
-    class Fonts : public Drawable {
+    class TextString : public Drawable {
         public:
-        Fonts(std::shared_ptr<Wrappers::Shader> shader, int width, int height, const char *text);
-        Fonts(const Fonts &) = delete;
-        ~Fonts()             = default;
+        TextString(std::shared_ptr<Wrappers::Shader> shader, int width, int height, const char *text);
+
+        TextString(const TextString &) = delete;
+        TextString(TextString &&)      = default;
+        TextString &operator=(const TextString &) = delete;
+        TextString &operator=(TextString &&) = default;
+        virtual ~TextString()                = default;
 
         void Draw(float time) final;
         void SetWavy(bool wavy);
@@ -31,8 +35,8 @@ namespace Drawers {
         GLuint _posLoc{};
         GLuint _texLoc{};
 
-        const float _scaleX{ 1.f };
-        const float _scaleY{ 1.f };
+        float _scaleX{ 1.f };
+        float _scaleY{ 1.f };
 
         int _fontSize{ 24 };
 
@@ -42,15 +46,19 @@ namespace Drawers {
             int quadCount{ 0 };
             GLuint vbo{};
 
-            GLuint texture{};
-            std::unique_ptr<uint8_t[]> textureBuffer{};
-            unsigned textureWidth{ 0 };
-            unsigned textureHeight{};
-
             int charCount{ 0 };
         } _text;
 
-        bool _wavy{ false };
+        struct {
+            GLuint handle{};
+            std::unique_ptr<uint8_t[]> buffer{};
+            unsigned width{ 0 };
+            unsigned height{ 0 };
+        } _texture;
+
+        struct {
+            bool _wavy{ false };
+        } _properties;
 
         glm::vec2 _at{ 0.f, 0.f };
     };

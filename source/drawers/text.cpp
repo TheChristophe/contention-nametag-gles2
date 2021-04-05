@@ -1,9 +1,9 @@
-#include "fonts.hpp"
+#include "text.hpp"
 
 #include <utility>
 
 namespace Drawers {
-    Fonts::Fonts(std::shared_ptr<Wrappers::Shader> shader, int width, int height, const char *text)
+    TextString::TextString(std::shared_ptr<Wrappers::Shader> shader, int width, int height, const char *text)
         : _shader(std::move(shader))
         , _scaleX{ 2.f / static_cast<float>(width) }
         , _scaleY{ 2.f / static_cast<float>(height) }
@@ -22,8 +22,8 @@ namespace Drawers {
         }
 
         glActiveTexture(GL_TEXTURE1);
-        glGenTextures(1, &_text.texture);
-        glBindTexture(GL_TEXTURE_2D, _text.texture);
+        glGenTextures(1, &_texture.handle);
+        glBindTexture(GL_TEXTURE_2D, _texture.handle);
         _shader->Use();
         _shader->Set("tex", 1);
 
@@ -48,7 +48,7 @@ namespace Drawers {
         LoadText(text);
     }
 
-    void Fonts::LoadText(const char *text)
+    void TextString::LoadText(const char *text)
     {
         // height above the baseline
         int glyphHeight{ 0 };
@@ -65,7 +65,7 @@ namespace Drawers {
             auto &glyph = _face->glyph;
 
             // bitmap width minus horizontal offset
-            _text.textureWidth += glyph->bitmap.width;
+            _texture.width += glyph->bitmap.width;
             //
             glyphHeight = std::max(glyphHeight, glyph->bitmap_top);
             glyphLowth  = std::max(glyphLowth, static_cast<int>(glyph->bitmap.rows - glyph->bitmap_top));
@@ -74,8 +74,8 @@ namespace Drawers {
         }
 
         // create string texture buffer
-        _text.textureHeight = glyphHeight + glyphLowth;
-        _text.textureBuffer = std::make_unique<uint8_t[]>(_text.textureWidth * _text.textureHeight);
+        _texture.height = glyphHeight + glyphLowth;
+        _texture.buffer = std::make_unique<uint8_t[]>(_texture.width * _texture.height);
 
         _text.charCount   = charCount;
         _text.quadCount   = charCount;
@@ -96,7 +96,7 @@ namespace Drawers {
             // vertical offset for characters that are not full height
             const int yOffset = glyphHeight - glyph->bitmap_top;
 
-            GLfloat xPos = static_cast<float>(xOffset) / static_cast<float>(_text.textureWidth);
+            GLfloat xPos = static_cast<float>(xOffset) / static_cast<float>(_texture.width);
 
             // left vertices
             _text.vertices[i * 4]     = TextVertex{ xPos, 1, xPos, 0 };
@@ -108,19 +108,19 @@ namespace Drawers {
                     // destination buffer offset
                     const unsigned xCoord      = xOffset + x;
                     const unsigned yCoord      = yOffset + y;
-                    const unsigned textureAddr = yCoord * _text.textureWidth + xCoord;
+                    const unsigned textureAddr = yCoord * _texture.width + xCoord;
 
                     // origin buffer offset
                     const int letterPixValue = glyph->bitmap.buffer[y * glyph->bitmap.width + x];
 
                     // add instead of set to avoid issues with overlapping letter bounding boxes
-                    _text.textureBuffer[textureAddr] += letterPixValue;
+                    _texture.buffer[textureAddr] += letterPixValue;
                 }
             }
 
             xOffset += glyph->bitmap.width;
 
-            xPos = static_cast<float>(xOffset) / static_cast<float>(_text.textureWidth);
+            xPos = static_cast<float>(xOffset) / static_cast<float>(_texture.width);
             // right vertices
             _text.vertices[i * 4 + 2] = TextVertex{ xPos, 1, xPos, 0 };
             _text.vertices[i * 4 + 3] = TextVertex{ xPos, 0, xPos, 1 };
@@ -131,15 +131,15 @@ namespace Drawers {
         glBufferData(GL_ARRAY_BUFFER, _text.vertexCount * sizeof(TextVertex), _text.vertices.get(), GL_STATIC_DRAW);
 
         // create texture
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, _text.textureWidth, _text.textureHeight, 0,
-            GL_LUMINANCE, GL_UNSIGNED_BYTE, _text.textureBuffer.get());
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, _texture.width, _texture.height, 0,
+            GL_LUMINANCE, GL_UNSIGNED_BYTE, _texture.buffer.get());
     }
 
-    void Fonts::Draw(float time)
+    void TextString::Draw(float time)
     {
         _shader->Use();
         _shader->Set("time", time);
-        _shader->Set("wavy", _wavy);
+        _shader->Set("wavy", _properties._wavy);
         _shader->Set("offset", _at);
 
         glBindBuffer(GL_ARRAY_BUFFER, _text.vbo);
@@ -148,7 +148,7 @@ namespace Drawers {
         glVertexAttribPointer(_texLoc, 2, GL_FLOAT, GL_FALSE, sizeof(TextVertex), reinterpret_cast<void *>(sizeof(GLfloat) * 2));
         glEnableVertexAttribArray(_texLoc);
 
-        glBindTexture(GL_TEXTURE_2D, _text.texture);
+        glBindTexture(GL_TEXTURE_2D, _texture.handle);
 
         for (int i = 0; i < _text.quadCount; i++) {
             glDrawArrays(GL_TRIANGLE_STRIP, i * 4, 4);
@@ -158,12 +158,12 @@ namespace Drawers {
         glDisableVertexAttribArray(_texLoc);
     }
 
-    void Fonts::SetWavy(bool wavy)
+    void TextString::SetWavy(bool wavy)
     {
-        _wavy = wavy;
+        _properties._wavy = wavy;
     }
 
-    void Fonts::MoveTo(glm::vec2 to)
+    void TextString::MoveTo(glm::vec2 to)
     {
         _at = to;
     }
