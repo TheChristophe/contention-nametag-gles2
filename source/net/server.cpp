@@ -28,10 +28,10 @@ enum RequestType {
     GET  = 3
 };
 
-nlohmann::json WebServer::Handle(int type, const nlohmann::json &metadata)
+nlohmann::json WebServer::Handle(int type, std::string_view command, const nlohmann::json &metadata)
 {
     using json = nlohmann::json;
-    if (type == RequestType::POST) {
+    if (command == "/add") {
         if (metadata["type"] == "triangle") {
             auto &data = metadata;
             auto x{ std::stof(data["x"].get<std::string>()) };
@@ -57,7 +57,7 @@ nlohmann::json WebServer::Handle(int type, const nlohmann::json &metadata)
             };
         }
     }
-    else if (type == RequestType::PUT) {
+    else if (command == "/delete") {
         if (metadata["type"] == "_delete") {
             auto &data = metadata;
             auto id{ data["id"].get<int>() };
@@ -82,48 +82,20 @@ void WebServer::Run()
             res->end(LoadFile("res/static/ui.js").c_str());
         })
         .post("/add", [this](auto *res, auto *req) {
-            res->onData([res, this](std::string_view data, bool last) {
-                std::string buffer{};
-                if (not last) {
-                    res->writeStatus("400 Bad Request");
-                    res->end("<!DOCTYPE html><html lang=\"en\"><body>error</body></html>");
-                }
-                buffer.append(data.data(), data.size());
-
-                auto out = this->Handle(RequestType::POST, nlohmann::json::parse(buffer)).dump();
-
-                res->writeStatus("200 OK");
-                res->writeHeader("content-type", "application/json");
-
-                res->end(out);
+            res->onData([this, res, req](std::string_view data, bool last) {
+                this->processData(res, req, RequestType::POST, "/add", data, last);
             });
-            res->onAborted([]() {
-                // dunno
-                std::cout << "aborted data" << std::endl;
+            res->onAborted([this, res, req]() {
+                this->processAborted(res, req, RequestType::POST, "/add");
             });
-            //res->end(Handle().dump());
         })
         .put("/delete", [this](auto *res, auto *req) {
-            res->onData([res, this](std::string_view data, bool last) {
-                std::string buffer{};
-                if (not last) {
-                    res->writeStatus("400 Bad Request");
-                    res->end("<!DOCTYPE html><html lang=\"en\"><body>error</body></html>");
-                }
-                buffer.append(data.data(), data.size());
-
-                auto out = this->Handle(RequestType::PUT, nlohmann::json::parse(buffer)).dump();
-
-                res->writeStatus("200 OK");
-                res->writeHeader("content-type", "application/json");
-
-                res->end(out);
+            res->onData([this, res, req](std::string_view data, bool last) {
+                this->processData(res, req, RequestType::PUT, "/delete", data, last);
             });
-            res->onAborted([]() {
-                // dunno
-                std::cout << "aborted data" << std::endl;
+            res->onAborted([this, res, req]() {
+                this->processAborted(res, req, RequestType::PUT, "/delete");
             });
-            //res->end(Handle().dump());
         })
         .listen(_port, [this](auto *token) {
             this->_socket = token;
