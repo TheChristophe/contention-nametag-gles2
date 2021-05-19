@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.16)
 project(programmable_nametag)
 
 set(CMAKE_CXX_STANDARD 20)
+include(CheckIncludeFileCXX)
 
-include_directories(SYSTEM /usr/include/freetype2)
-include_directories(SYSTEM /opt/vc/include)
+include_directories(SYSTEM ${CMAKE_SYSROOT}/usr/include/freetype2)
 include_directories(SYSTEM include)
 include_directories(SYSTEM include/nlohmann/detail)
 include_directories(SYSTEM include/uWebSockets/src)
@@ -55,8 +55,10 @@ set(SOURCE_FILES
 
 add_executable(nametag ${SOURCE_FILES})
 
-if (EXISTS /usr/include/bcm2835.h)
-    target_link_directories(nametag PUBLIC /opt/vc/lib)
+CHECK_INCLUDE_FILE_CXX("bcm2835.h" HAVE_BCM2835 "-I${PREFIX}/include")
+if (${HAVE_BCM2835})
+    include_directories(SYSTEM ${CMAKE_SYSROOT}/opt/vc/include)
+    target_link_directories(nametag PUBLIC ${CMAKE_SYSROOT}/opt/vc/lib)
     target_link_libraries(nametag PUBLIC bcm2835 brcmEGL brcmGLESv2 freetype rt z)
 else ()
     target_link_libraries(nametag PUBLIC freetype rt SDL2 GLESv2 z)
