@@ -14,3 +14,11 @@ Run with:
 
 Conventions:
  - in glsl, texture 0 should always be the bayer matrix
+
+Useful stuff for x-builds:
+ - `TOOLCHAIN=armv6-rpi-linux-gnueabihf`
+ - `TOOLDIR=/home/chris/x-tools/${TOOLCHAIN}`
+ - configure (freetype?): `CC=${TOOLDIR}/bin/${TOOLCHAIN}-gcc CXX=${TOOLDIR}/bin/${TOOLCHAIN}-g++ ./configure --prefix=/home/chris/x-tools/${TOOLCHAIN}/${TOOLCHAIN}/sysroot/usr $@`
+ - ffmpeg: `CC={$TOOLDIR}/bin/{$TOOLCHAIN}-gcc CXX={$TOOLDIR}/bin/{$TOOLCHAIN}-g++ ./configure --prefix=/home/chris/x-tools/{$TOOLCHAIN}/{$TOOLCHAIN}/sysroot/usr --arch=armel --target-os=linux --enable-cross-compile --cross-prefix={$TOOLDIR}/bin/{$TOOLCHAIN}-`0
+ - ./cross-cmake.sh
+ - uSockets: `CC=/home/chris/x-tools/armv6-rpi-linux-gnueabihf/bin/armv6-rpi-linux-gnueabihf-gcc CXX=/home/chris/x-tools/armv6-rpi-linux-gnueabihf/bin/armv6-rpi-linux-gnueabihf-g++ PREFIX=/home/chris/x-tools/armv6-rpi-linux-gnueabihf/armv6-rpi-linux-gnueabihf/ CXXFLAGS=-I/home/chris/x-tools/armv6-rpi-linux-gnueabihf/armv6-rpi-linux-gnueabihf/sysroot/usr/include/ LDFLAGS=-L/home/chris/x-tools/armv6-rpi-linux-gnueabihf/armv6-rpi-linux-gnueabihf/sysroot/usr/lib make`
