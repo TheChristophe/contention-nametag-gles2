@@ -1,3 +1,7 @@
+### Status
+
+Dead - I decided to work on a [video-player based solution](https://github.com/TheChristophe/convention-nametag-video-player) instead, as otherwise it would require me to implement every different kind of primitive shapes and animations anyone could achieve with video editing software already, manually.
+
 ##Small nametag using Pi Zero W and various OLED panels
 
 ### Backend
